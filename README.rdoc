@@ -1,12 +1,11 @@
-===OPERATION UMBRA===
+OPERATION UMBRA
 
 Agent:
-Congratulations. You have selected to be a part of Operation Umbra. You were chosen based on your intelligence, your discretion, and most importantly, your loyalty. 
+
+Congratulations. You have been selected to be a part of Operation Umbra. You were chosen based on your intelligence, your discretion, and most importantly, your loyalty. 
 
 This is a mission of the utmost secrecy. We have intercepted a missive detailing double agents within our organization. Your mission is to gather intel, find these agents, and eliminate them. 
 
 Good luck. 
 
 This message will self-destruct in 5... 4... 3... 2...
-
-=====================
