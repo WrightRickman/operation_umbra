@@ -1,5 +1,5 @@
 class PlayerMission < ActiveRecord::Base
-	belongs_to :users
-	belongs_to :rounds
-	belongs_to :missions
+	belongs_to :user
+	belongs_to :round
+	belongs_to :mission
 end
