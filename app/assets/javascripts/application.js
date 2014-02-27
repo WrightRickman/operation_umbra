@@ -12,5 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-1.11.0.min
+//= require underscore-min
+//= require backbone-min
+//= require foundation
 //= require turbolinks
+
 //= require_tree .
+
+
+$(function(){ $(document).foundation(); });

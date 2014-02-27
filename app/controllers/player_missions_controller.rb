@@ -1,0 +1,2 @@
+class PlayerMissionsController < ApplicationController
+end
