@@ -1,28 +1,12 @@
-== README
+===OPERATION UMBRA===
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Agent:
+Congratulations. You have selected to be a part of Operation Umbra. You were chosen based on your intelligence, your discretion, and most importantly, your loyalty. 
 
-Things you may want to cover:
+This is a mission of the utmost secrecy. We have intercepted a missive detailing double agents within our organization. Your mission is to gather intel, find these agents, and eliminate them. 
 
-* Ruby version
+Good luck. 
 
-* System dependencies
+This message will self-destruct in 5... 4... 3... 2...
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+=====================
