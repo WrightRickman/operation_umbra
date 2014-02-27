@@ -15,10 +15,13 @@
 //= require jquery-1.11.0.min
 //= require underscore-min
 //= require backbone-min
+//= require handlebars-v1.3.0
 //= require foundation
 //= require turbolinks
 
 //= require_tree .
 
 
-$(function(){ $(document).foundation(); });
+$(function(){ 
+	$(document).foundation(); 
+});

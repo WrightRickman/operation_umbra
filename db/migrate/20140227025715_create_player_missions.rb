@@ -7,7 +7,7 @@ class CreatePlayerMissions < ActiveRecord::Migration
       t.integer :agent_id
       t.integer :round_id
       t.integer :target_id
-      t.datetime :completed
+      t.datetime :completed, :default => false
 
       t.timestamps
     end

@@ -9,11 +9,75 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= csrf_meta_tags %>
+
+    <script id="create-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Create</h3>
+        <form>
+          <input name='name' placeholder='Agency Name'><br />
+          <input name='max_difficulty' placeholder='End Difficulty (1-7)'><br />
+          <input type='submit'>
+        </form>
+      </div>
+    </script>
+
+<script id="join-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>Join</h3>
+  </div>
+</script>
+
+<script id="start-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>Start</h3>
+  </div>
+</script>
+
+<script id="current-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>Current</h3>
+  </div>
+</script>
+
+<script id="menu-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>Menu</h3>
+    <a href="#start">Start</a><br />
+    <a href="#current">Current</a><br />
+    <a href="#myGames">My Game</a><br />
+    <a href="#pastGames">Past Game</a>
+  </div>
+</script>
+
+<script id="myGames-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>My Games</h3>
+  </div>
+</script>
+
+<script id="pastGames-template" type="text/x-handlebars-template">
+  <div id="wrapper">
+    <h3>Past Games</h3>
+  </div>
+</script>
+
   </head>
 
   <body>
+    <nav>
+      <a href="#create">Create</a>
+      <a href="#join">Join</a>
+      <a href="#menu">Menu</a>
+    </nav>
 
-    <%= yield %>
+    <h1>Operation Umbra</h1>
+
+    <div id="state_frame">
+
+      <%= yield %>
+
+    </div>
+
     <%= javascript_include_tag "application" %>
   </body>
 </html>

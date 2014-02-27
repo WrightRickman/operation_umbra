@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20140227025805) do
     t.integer  "min_difficulty"
     t.integer  "max_difficulty"
     t.integer  "mission_count"
-    t.boolean  "started"
-    t.boolean  "completed"
+    t.boolean  "started",            default: true
+    t.boolean  "completed",          default: false
     t.integer  "time_limit"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,8 +76,6 @@ ActiveRecord::Schema.define(version: 20140227025805) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "user_name"
-    t.string   "phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
