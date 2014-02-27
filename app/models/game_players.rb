@@ -1,5 +1,4 @@
 class GamePlayers < ActiveRecord::Base
-	has_many :game_players
-	has_many :rounds
-	has_many :missions, :through => :users 
+  belongs_to :game
+  belongs_to :user
 end
