@@ -8,12 +8,18 @@ class GamesController < ApplicationController
 		# binding.pry
 
 		name = params["name"]
-		max_difficulty = 2
+		max_difficulty = params["max_difficulty"]
 
 		# binding.pry
 
-		Game.create(name: name, max_difficulty: max_difficulty)
-		redirect_to '#current'
+		game = Game.create(name: name, max_difficulty: max_difficulty)
+		current_user = current_user.id
+		info = {game: game, user: current_user}
+
+		respond_to do |format|
+			format.html
+			format.json {	render json: info }
+		end
 	end
 
 	private

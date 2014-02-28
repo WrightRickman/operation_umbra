@@ -117,8 +117,10 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			data: params,
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-			success: function(){
-				app.current;
+			success: function(data){
+				// app.current_game = data;
+				console.log(data)
+				app.start();
 			}
 		})
 	},

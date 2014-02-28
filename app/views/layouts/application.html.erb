@@ -12,7 +12,7 @@
 
     <script id="create-template" type="text/x-handlebars-template">
       <div id="wrapper">
-        <h3>Create</h3>
+        <h3>Create Game</h3>
         <form onSubmit="false">
           <input id="agency_name_input" placeholder='Agency Name'><br />
           <input id="end_difficulty_input" placeholder='Difficulty (1-7)'><br />
@@ -21,45 +21,50 @@
       </div>
     </script>
 
-<script id="join-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>Join</h3>
-  </div>
-</script>
+    <script id="join-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Join</h3>
+      </div>
+    </script>
 
-<script id="start-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>Start</h3>
-  </div>
-</script>
+    <script id="start-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Start Game</h3>
+        <div id="current_game">
 
-<script id="current-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>Current</h3>
-  </div>
-</script>
+        </div>
+        <button id="start_game_button">Start</button><br />
+        <button id="disband_game_button">Disband</button>
+      </div>
+    </script>
 
-<script id="menu-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>Menu</h3>
-    <a href="#start">Start</a><br />
-    <a href="#current">Current</a><br />
-    <a href="#myGames">My Game</a><br />
-    <a href="#pastGames">Past Game</a>
-  </div>
-</script>
+    <script id="current-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Current</h3>
+      </div>
+    </script>
 
-<script id="myGames-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>My Games</h3>
-  </div>
-</script>
+    <script id="menu-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Menu</h3>
+        <a href="#start">Start</a><br />
+        <a href="#current">Current</a><br />
+        <a href="#myGames">My Game</a><br />
+        <a href="#pastGames">Past Game</a>
+      </div>
+    </script>
 
-<script id="pastGames-template" type="text/x-handlebars-template">
-  <div id="wrapper">
-    <h3>Past Games</h3>
-  </div>
-</script>
+    <script id="myGames-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>My Games</h3>
+      </div>
+    </script>
+
+    <script id="pastGames-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Past Games</h3>
+      </div>
+    </script>
 
   </head>
 

@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(version: 20140227025805) do
   end
 
   create_table "games", force: true do |t|
-    t.integer  "assassin_threshold"
-    t.string   "name"
-    t.integer  "min_difficulty"
-    t.integer  "max_difficulty"
-    t.integer  "mission_count"
-    t.boolean  "started",            default: true
-    t.boolean  "completed",          default: false
+    t.integer  "assassin_threshold", default: 10
+    t.string   "name",               default: "Umbra Agency"
+    t.integer  "min_difficulty",     default: 1
+    t.integer  "max_difficulty",     default: 2
+    t.integer  "mission_count",      default: 0
+    t.boolean  "started",            default: false
+    t.boolean  "completed"
     t.integer  "time_limit"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 20140227025805) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "user_name"
+    t.string   "phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
