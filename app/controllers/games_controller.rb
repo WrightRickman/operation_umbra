@@ -5,14 +5,15 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		respond_to do |format|
-			format.json do
-				game = Game.create(game_params)
-				render :json => game.to_json
-			end
-		end
+		# binding.pry
 
-		redirect_to '#join'
+		name = params["name"]
+		max_difficulty = 2
+
+		# binding.pry
+
+		Game.create(name: name, max_difficulty: max_difficulty)
+		redirect_to '#current'
 	end
 
 	private

@@ -8,12 +8,12 @@
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
-    <%= csrf_meta_tags %>
+    <%= csrf_meta_tags %> 
 
     <script id="create-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Create</h3>
-        <form method="POST" action="create" onSubmit="false">
+        <form onSubmit="false">
           <input id="agency_name_input" placeholder='Agency Name'><br />
           <input id="end_difficulty_input" placeholder='Difficulty (1-7)'><br />
           <button id="create_game_submit">Enlist</button>

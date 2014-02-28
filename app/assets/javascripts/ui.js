@@ -100,21 +100,23 @@ UI.Body = Backbone.View.extend({
 		return this;
 	},
 	events: {
-		"click #create_game_submit": "create"
+		"submit form": "create"
 	},
 	create: function(e){
-		e.preventDefaut();
+		console.log(e.originalEvent)
+		e.originalEvent.preventDefault();
 
 		var params = {
 			name: $('#agency_name_input').val(),
-			difficulty: $('end_difficulty_input').val()
+			max_difficulty: $('#end_difficulty_input').val()
 		}
 
 		$.ajax({
-			url: "/create",
+			url: "/games",
 			method: "post",
 			dataType: "json",
 			data: params,
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 			success: function(){
 				app.current;
 			}
