@@ -96,8 +96,29 @@ UI.Body = Backbone.View.extend({
 		else if (app.current_page == "pastGames") {
 			console.log("Lisa, YOU ARE TEARING ME A PART!")
 		}
-		
+
 		return this;
+	},
+	events: {
+		"click #create_game_submit": "create"
+	},
+	create: function(e){
+		e.preventDefaut();
+
+		var params = {
+			name: $('#agency_name_input').val(),
+			difficulty: $('end_difficulty_input').val()
+		}
+
+		$.ajax({
+			url: "/create",
+			method: "post",
+			dataType: "json",
+			data: params,
+			success: function(){
+				app.current;
+			}
+		})
 	},
 	template: function(attributes, template_name){
 		var source;
