@@ -13,8 +13,10 @@ class GamesController < ApplicationController
 		# binding.pry
 
 		game = Game.create(name: name, max_difficulty: max_difficulty)
-		current_user = current_user.id
-		info = {game: game, user: current_user}
+		info = {game: game}
+		if current_user
+			info[user: current_user.id]
+		end
 
 		respond_to do |format|
 			format.html
