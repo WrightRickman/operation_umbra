@@ -5,15 +5,15 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		# binding.pry
-
-		name = params["name"]
-		max_difficulty = params["max_difficulty"]
-
-		game = Game.create(name: name, max_difficulty: max_difficulty)
-		info = {game: game}
+		#if the user is logged in...
 		if current_user
-			info[user: current_user.id]
+			#save params to variables
+			name = params["name"]
+			max_difficulty = params["max_difficulty"]
+			#create the game
+			game = Game.create(name: name, max_difficulty: max_difficulty, creator_id: current_user.id)
+			#create a hash to return to the app, with the created game and the creator's id
+			info = {game: game, user: current_user.id}
 		end
 
 		respond_to do |format|
@@ -23,8 +23,16 @@ class GamesController < ApplicationController
 	end
 
 	def lobby
+		#get all open games
 		open_games = Game.where(started: false)
-		lobby = {open_games: open_games}
+		#create a hash for creators
+		creators = []
+		#add the creator of each game to the creators hash
+		open_games.each do |game|
+			creators << User.find(game.creator_id)
+		end
+		#pack up all that information in a hash ready for handlebars
+		lobby = {lobby: {open_games: open_games, creators: creators}}
 		respond_to do |format|
 			format.json {render json: lobby}
 		end

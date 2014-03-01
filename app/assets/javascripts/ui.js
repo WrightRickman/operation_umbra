@@ -1,4 +1,5 @@
 var App = Backbone.Router.extend({
+	// all routes
 	routes: {
 		"": "home",
 		"create": "create",
@@ -21,6 +22,8 @@ var App = Backbone.Router.extend({
 		app.current_page = "join"
 		if (ui) ui.remove();
 		var ui = new UI();
+		// create a new UI.Body so that we can call it's openGames function
+		// come back later to find better way to do this
 		var body = new UI.Body();
 		body.openGames();
 	},
@@ -84,27 +87,14 @@ UI.Body = Backbone.View.extend({
 	initialize: function(){
 	},
 	render: function(){
-		this.$el.html(this.template({}, app.current_page));
-
-		if (app.current_page == "join") {
-			console.log("Oh hai Mark!")
-		} 
-		else if (app.current_page == "current") {
-			console.log("Oh hai Denny!")
-		}
-		else if (app.current_page == "myGames") {
-			console.log("Oh hai Doggie!")
-		}
-		else if (app.current_page == "pastGames") {
-			console.log("Lisa, YOU ARE TEARING ME A PART!")
-		}
-
+		this.$el.html(this.template({}, app.current_page))
 		return this;
 	},
 	events: {
 		"submit form": "create"
 	},
 	create: function(e){
+		// function to create a new game
 		console.log(e.originalEvent)
 		e.originalEvent.preventDefault();
 
@@ -126,6 +116,7 @@ UI.Body = Backbone.View.extend({
 			}
 		})
 	},
+	// function to return all open games and save it to app.openGames
 	openGames: function(){
 		$.ajax({
 			url: "/lobby",
