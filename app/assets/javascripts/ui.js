@@ -23,9 +23,6 @@ var App = Backbone.Router.extend({
 		// come back later to find better way to do this
 		var body = new UI.Body();
 		body.openGames();
-		app.current_page = "join"
-		if (ui) ui.remove();
-		var ui = new UI();
 	},
 	start: function(){
 		app.current_page = "start"
@@ -127,6 +124,9 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			success: function(data){
 				app.openGames = data;
+				app.current_page = "join"
+				if (ui) ui.remove();
+				var ui = new UI();
 			}
 		})
 	},

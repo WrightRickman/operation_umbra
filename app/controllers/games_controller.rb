@@ -33,7 +33,7 @@ class GamesController < ApplicationController
 		end
 		#pack up all that information in a hash ready for handlebars
 		# lobby = {lobby: {open_games: open_games, creators: creators}}
-		lobby = {lobby: {lobby: open_games}}
+		lobby = {lobby: open_games}
 		respond_to do |format|
 			format.json {render json: lobby}
 		end
