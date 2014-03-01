@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140227025805) do
     t.boolean  "started",            default: false
     t.boolean  "completed"
     t.integer  "time_limit"
+    t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -9,6 +9,7 @@ class CreateGames < ActiveRecord::Migration
       t.boolean :started, :default => false
       t.boolean :completed
       t.integer :time_limit
+      t.integer :creator_id
 
       t.timestamps
     end
