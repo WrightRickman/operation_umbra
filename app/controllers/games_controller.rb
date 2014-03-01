@@ -10,8 +10,6 @@ class GamesController < ApplicationController
 		name = params["name"]
 		max_difficulty = params["max_difficulty"]
 
-		# binding.pry
-
 		game = Game.create(name: name, max_difficulty: max_difficulty)
 		info = {game: game}
 		if current_user
@@ -21,6 +19,14 @@ class GamesController < ApplicationController
 		respond_to do |format|
 			format.html
 			format.json {	render json: info }
+		end
+	end
+
+	def lobby
+		open_games = Game.where(started: false)
+		lobby = {open_games: open_games}
+		respond_to do |format|
+			format.json {render json: lobby}
 		end
 	end
 

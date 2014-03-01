@@ -2,6 +2,8 @@ OperationUmbra::Application.routes.draw do
   
   root :to => "games#index"
 
+  get "/lobby" => "games#lobby"
+
   resources :games
 
   devise_for :users

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+    <title>Operation Umbra</title>
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
@@ -13,7 +13,7 @@
     <script id="create-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Create Game</h3>
-        <form onSubmit="false">
+        <form>
           <input id="agency_name_input" placeholder='Agency Name'><br />
           <input id="end_difficulty_input" placeholder='Difficulty (1-7)'><br />
           <button id="create_game_submit">Enlist</button>
@@ -23,7 +23,26 @@
 
     <script id="join-template" type="text/x-handlebars-template">
       <div id="wrapper">
-        <h3>Join</h3>
+         <div id="wrapper">
+          <h3>Join</h3>
+          <table>
+            <thead>
+              <th>Game ID</th>
+              <th>Agency Name</th>
+              <th>Security Level</th>
+              <th>Enlisted Agents</th>
+              <th>Game Creator</th>
+            </thead>
+            <tbody>
+              {{each lobby}}
+                <tr>
+                  <td>{{id}}</td>
+                  <td>{{name}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
       </div>
     </script>
 
@@ -47,6 +66,10 @@
     <script id="menu-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Menu</h3>
+        <% if !current_user %>
+          <a href="/users/sign_up">Sign Up</a><br />
+          <a href="/users/sign_in">Sign In</a><br />
+        <% end %>
         <a href="#start">Start</a><br />
         <a href="#current">Current</a><br />
         <a href="#myGames">My Game</a><br />
