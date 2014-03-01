@@ -19,13 +19,13 @@ var App = Backbone.Router.extend({
 		var ui = new UI();
 	},
 	join: function(){
-		app.current_page = "join"
-		if (ui) ui.remove();
-		var ui = new UI();
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
 		var body = new UI.Body();
 		body.openGames();
+		app.current_page = "join"
+		if (ui) ui.remove();
+		var ui = new UI();
 	},
 	start: function(){
 		app.current_page = "start"
@@ -87,7 +87,10 @@ UI.Body = Backbone.View.extend({
 	initialize: function(){
 	},
 	render: function(){
-		this.$el.html(this.template({}, app.current_page))
+		console.log(this);
+		console.log(this.template(app.current_page));
+		console.log(app.openGames);
+		this.$el.html(this.template(app.current_page)(app.openGames))
 		return this;
 	},
 	events: {
@@ -124,11 +127,10 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			success: function(data){
 				app.openGames = data;
-				console.log("boo");
 			}
 		})
 	},
-	template: function(attributes, template_name){
+	template: function(template_name){
 		var source;
 		switch (template_name) {
 			case "home":
