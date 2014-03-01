@@ -39,6 +39,19 @@ class GamesController < ApplicationController
 		end
 	end
 
+	def join_game
+		if current_user
+			new_player = current_user.id
+			game_id = params[:game_id]
+			game = Game.find(game_id)
+			game_player = GamePlayer.create(game_id: game_id, user_id: new_player)
+		end
+		respond_to do |format|
+			format.html
+			format.json {render json: "okay"}
+		end
+	end
+
 	private
 
 	def game_params

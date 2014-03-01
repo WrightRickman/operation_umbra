@@ -3,7 +3,7 @@ var App = Backbone.Router.extend({
 	routes: {
 		"": "home",
 		"create": "create",
-		"join": "join",
+		"lobby": "lobby",
 		"start": "start",
 		"current": "current",
 		"menu": "menu",
@@ -18,7 +18,7 @@ var App = Backbone.Router.extend({
 		if (ui) ui.remove();
 		var ui = new UI();
 	},
-	join: function(){
+	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
 		var body = new UI.Body();
@@ -84,18 +84,15 @@ UI.Body = Backbone.View.extend({
 	initialize: function(){
 	},
 	render: function(){
-		console.log(this);
-		console.log(this.template(app.current_page));
-		console.log(app.openGames);
 		this.$el.html(this.template(app.current_page)(app.openGames))
 		return this;
 	},
 	events: {
-		"submit form": "create"
+		"submit form": "create",
+		"click .join_game_button": "joinGame"
 	},
 	create: function(e){
 		// function to create a new game
-		console.log(e.originalEvent)
 		e.originalEvent.preventDefault();
 
 		var params = {
@@ -108,7 +105,7 @@ UI.Body = Backbone.View.extend({
 			method: "post",
 			dataType: "json",
 			data: params,
-			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}, beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 			success: function(data){
 				// app.current_game = data;
 				console.log(data)
@@ -127,6 +124,23 @@ UI.Body = Backbone.View.extend({
 				app.current_page = "join"
 				if (ui) ui.remove();
 				var ui = new UI();
+			}
+		})
+	},
+	joinGame: function(e){
+		$target = $(e.target);
+		gameID = $target.parent().parent().children().first().html();
+		var params = {
+				game_id: gameID,
+			};
+		$.ajax({
+			url: '/join',
+			method: "post",
+			data: params,
+			dataType: 'json',
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+			success: function(data){
+				console.log("OH YEAH BUDDY, WE GOT THIS SHIT");
 			}
 		})
 	},

@@ -32,12 +32,17 @@
               <th>Security Level</th>
               <th>Enlisted Agents</th>
               <th>Game Creator</th>
+              <th></th>
             </thead>
             <tbody>
               {{#each lobby}}
                 <tr>
                   <td>{{id}}</td>
                   <td>{{name}}</td>
+                  <td>{{max_difficulty}}</td>
+                  <td></td>
+                  <td></td>
+                  <td><button class="join_game_button">Join Game</button></td>
                 </tr>
               {{/each}}
             </tbody>
@@ -94,7 +99,7 @@
   <body>
     <nav>
       <a href="#create">Create</a>
-      <a href="#join">Join</a>
+      <a href="#lobby">Lobby</a>
       <a href="#menu">Menu</a>
     </nav>
 

@@ -4,6 +4,8 @@ OperationUmbra::Application.routes.draw do
 
   get "/lobby" => "games#lobby"
 
+  post "/join" => "games#join_game"
+
   resources :games
 
   devise_for :users
