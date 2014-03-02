@@ -23,19 +23,27 @@ class GamesController < ApplicationController
 	end
 
 	def lobby
-		#get all open games
-		open_games = Game.where(started: false)
-		#create a hash for creators
-		creators = []
-		#add the creator of each game to the creators hash
-		open_games.each do |game|
-			creators << User.find(game.creator_id)
+		if current_user.involved 
+			lobby_info = {}
+		else
+			#get all open games
+			open_games = Game.where(started: false)
+			players = {}
+
+			open_games.each do |game|
+				players["#{game.id}"] = []
+				game.users.each do |user|
+					players["#{game.id}"] << user.id
+				end
+			end
 		end
+
 		#pack up all that information in a hash ready for handlebars
 		# lobby = {lobby: {open_games: open_games, creators: creators}}
 		lobby = {lobby: open_games}
+		lobby_info = [lobby, players]
 		respond_to do |format|
-			format.json {render json: lobby}
+			format.json {render json: lobby_info}
 		end
 	end
 
@@ -43,8 +51,10 @@ class GamesController < ApplicationController
 		if current_user
 			new_player = current_user.id
 			game_id = params[:game_id]
-			game = Game.find(game_id)
+			# game = Game.find(game_id)
 			game_player = GamePlayer.create(game_id: game_id, user_id: new_player)
+
+			User.update(new_player, :involved => true)
 		end
 		respond_to do |format|
 			format.html

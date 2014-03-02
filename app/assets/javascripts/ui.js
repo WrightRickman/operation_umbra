@@ -120,7 +120,8 @@ UI.Body = Backbone.View.extend({
 			method: "get",
 			dataType: "json",
 			success: function(data){
-				app.openGames = data;
+				console.log(data)
+				app.openGames = data[0];
 				app.current_page = "join"
 				if (ui) ui.remove();
 				var ui = new UI();
@@ -140,7 +141,9 @@ UI.Body = Backbone.View.extend({
 			dataType: 'json',
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 			success: function(data){
-				console.log("OH YEAH BUDDY, WE GOT THIS SHIT");
+				app.current_page = "join"
+				if (ui) ui.remove();
+				var ui = new UI();
 			}
 		})
 	},
