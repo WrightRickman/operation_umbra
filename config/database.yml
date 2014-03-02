@@ -19,6 +19,8 @@ development:
   encoding: unicode
   database: operation_umbra_development
   pool: 5
+  username:
+  password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -46,9 +48,13 @@ test:
   encoding: unicode
   database: operation_umbra_test
   pool: 5
+  username:
+  password:
 
 production:
   adapter: postgresql
   encoding: unicode
   database: operation_umbra_production
   pool: 5
+  username:
+  password:
