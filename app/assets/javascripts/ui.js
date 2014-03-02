@@ -121,7 +121,9 @@ UI.Body = Backbone.View.extend({
 		// event for joining a game
 		"click .join_game_button": "joinGame",
 		// event redirecting players to lobby if viewing the start page without having joined a game
-		"click #return_lobby_button": "goToLobby"
+		"click #return_lobby_button": "goToLobby",
+		// event for a player leaving a game
+		"click #leave_game_button": "leaveGame"
 	},
 	create: function(e){
 		// function to create a new game
@@ -181,12 +183,22 @@ UI.Body = Backbone.View.extend({
 			method: "post",
 			data: params,
 			dataType: 'json',
-			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		// redirect the player to the start page of their current game
 		app.start();
 	},
 	goToLobby: function(e){
+		app.lobby();
+	},
+	leaveGame: function(e){
+		$.ajax({
+			url: '/leave_game',
+			method: "post",
+			dataType: 'json',
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+		})
+		// redirect player to the lobby
 		app.lobby();
 	},
 	template: function(template_name){

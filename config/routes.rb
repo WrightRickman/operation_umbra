@@ -8,6 +8,8 @@ OperationUmbra::Application.routes.draw do
 
   get '/current_game' => "games#current_game"
 
+  post '/leave_game' => "games#leave_game"
+
   resources :games
 
   devise_for :users

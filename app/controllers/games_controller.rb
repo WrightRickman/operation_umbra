@@ -24,7 +24,7 @@ class GamesController < ApplicationController
 
 	def lobby
 		#check to see if the current user is in a game
-		if current_user.involved 
+		if current_user.current_game
 			#if the current user is in a game, return an empty object
 			lobby_info = {}
 		else
@@ -58,8 +58,9 @@ class GamesController < ApplicationController
 			#create a new game_player with the current user's id and the game id from params
 			game_player = GamePlayer.create(game_id: params[:game_id], user_id: new_player)
 			#set the current user to be involved in a game so that they cannot join more
-			User.update(new_player, :involved => true)
+			User.update(new_player, :current_game => params[:game_id])
 		end
+
 		respond_to do |format|
 			format.html
 			format.json {render json: "okay"}
@@ -94,6 +95,31 @@ class GamesController < ApplicationController
 				format.html
 				format.json {render json: info}
 			end
+	end
+
+	def leave_game
+		if current_user.current_game != nil
+			puts "======================="
+			# set the user to not be in a game
+			user = User.find(current_user.id)
+			puts user
+			game_id = user.current_game
+			puts game_id
+			# remove the assosiation between the current user and the game
+			game_player = GamePlayer.where({user_id: current_user.id, game_id: game_id})
+			puts game_player
+
+			GamePlayer.destroy(game_player)
+
+			user.current_game = nil
+			user.save!
+			puts "======================="
+		end
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end 
 	end
 
 	private
