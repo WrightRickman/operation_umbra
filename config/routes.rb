@@ -10,6 +10,8 @@ OperationUmbra::Application.routes.draw do
 
   post '/leave_game' => "games#leave_game"
 
+  post '/disband_game' => "games#disband_game"
+
   resources :games
 
   devise_for :users

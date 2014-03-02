@@ -98,28 +98,51 @@ class GamesController < ApplicationController
 	end
 
 	def leave_game
+		# if user is in a game
 		if current_user.current_game != nil
-			puts "======================="
-			# set the user to not be in a game
 			user = User.find(current_user.id)
-			puts user
 			game_id = user.current_game
-			puts game_id
 			# remove the assosiation between the current user and the game
 			game_player = GamePlayer.where({user_id: current_user.id, game_id: game_id})
-			puts game_player
-
 			GamePlayer.destroy(game_player)
-
+			# set the user to not be in a game
 			user.current_game = nil
 			user.save!
-			puts "======================="
 		end
 
 		respond_to do |format|
 			format.html
 			format.json {render json: {}}
 		end 
+	end
+
+	def disband_game
+		if current_user.current_game != nil
+			# find the current game
+			game_id = current_user.current_game
+			# find all users in that game 
+			game_players = GamePlayer.where(game_id: game_id)
+			# remove all of the users from the game
+			game_players.each do |player|
+				user = User.find(player.user_id)
+				user.current_game = nil
+				user.save!
+			end
+			# remove that game and the game_player association
+			game_to_remove = Game.where(creator_id: current_user.id)
+			game_players_to_remove = GamePlayer.where(game_id: game_to_remove[0].id)
+
+			game_players_to_remove.each do |game_player|
+				GamePlayer.destroy(game_player)
+			end
+
+			Game.destroy(game_to_remove)
+		end
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end
 	end
 
 	private
