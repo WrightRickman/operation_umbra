@@ -62,6 +62,14 @@ class GamesController < ApplicationController
 		end
 	end
 
+	def get_user
+		if current_user
+			respond_to do |format|
+				format.json {render json: current_user.id}
+			end
+		end
+	end
+
 	private
 
 	def game_params

@@ -6,6 +6,8 @@ OperationUmbra::Application.routes.draw do
 
   post "/join" => "games#join_game"
 
+  get "/get_user" => "games#get_user"
+
   resources :games
 
   devise_for :users

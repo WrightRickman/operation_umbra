@@ -16,7 +16,7 @@ var App = Backbone.Router.extend({
 	create: function(){
 		app.current_page = "create"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
 	},
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
@@ -27,27 +27,38 @@ var App = Backbone.Router.extend({
 	start: function(){
 		app.current_page = "start"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
 	},
 	current: function(){
 		app.current_page = "current"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
 	},
 	menu: function(){
 		app.current_page = "menu"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
 	},
 	myGames: function(){
 		app.current_page = "myGames"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
 	},
 	pastGames: function(){
 		app.current_page = "pastGames"
 		if (ui) ui.remove();
-		var ui = new UI();
+		var ui = app.generateUI();
+	},
+	generateUI: function(){
+		$.ajax({
+			url: "/get_user",
+			method: "get",
+			dataType: 'json',
+			success: function(data){
+				app.current_user = data
+			}
+		})
+		return new UI();
 	}
 })
 
@@ -125,6 +136,9 @@ UI.Body = Backbone.View.extend({
 				app.current_page = "join"
 				if (ui) ui.remove();
 				var ui = new UI();
+				if (app.openGames.lobby === null){
+					$('#wrapper').append("<p>We do not allow double agents... You must wait until the current game is over, or drop from the current game.</p>")
+				}
 			}
 		})
 	},
@@ -145,6 +159,7 @@ UI.Body = Backbone.View.extend({
 				if (ui) ui.remove();
 				var ui = new UI();
 			}
+
 		})
 	},
 	template: function(template_name){
