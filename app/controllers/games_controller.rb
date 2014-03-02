@@ -53,8 +53,10 @@ class GamesController < ApplicationController
 	def join_game
 		#check to see if the user is logged in
 		if current_user
+			#set new_player equal to the id of the current user
+			new_player = current_user.id
 			#create a new game_player with the current user's id and the game id from params
-			game_player = GamePlayer.create(game_id: params[:game_id], user_id: current_user.id)
+			game_player = GamePlayer.create(game_id: params[:game_id], user_id: new_player)
 			#set the current user to be involved in a game so that they cannot join more
 			User.update(new_player, :involved => true)
 		end
