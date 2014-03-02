@@ -66,8 +66,7 @@
         <div id="current_game">
 
         </div>
-        <button id="start_game_button">Start</button><br />
-        <button id="disband_game_button">Disband</button>
+        <button id="leave_game_button">Leave Game</button>
       </div>
     </script>
 
@@ -78,8 +77,7 @@
         <div id="current_game">
 
         </div>
-        <button id="start_game_button">Start</button><br />
-        <button id="disband_game_button">Disband</button>
+        <button id="return_lobby_button">Return to Lobby</button><br />
       </div>
     </script>
 
@@ -92,15 +90,11 @@
     <script id="menu-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Menu</h3>
-        <% if !current_user %>
-          <a href="/users/sign_up">Sign Up</a><br />
-          <a href="/users/sign_in">Sign In</a><br />
-        <% end %>
-        <a href="#start">Start</a><br />
-        <a href="#current">Current</a><br />
-        <a href="#myGames">My Game</a><br />
-        <a href="#pastGames">Past Game</a><br />
-        <% if user_signed_in? %>
+          <% if user_signed_in? %>
+          <a href="#start">Start</a><br />
+          <a href="#current">Current</a><br />
+          <a href="#myGames">My Game</a><br />
+          <a href="#pastGames">Past Game</a><br />
           <a href="/users/sign_out" data-method="delete" rel="nofollow">Sign Out</a>
         <% end %>
       </div>
@@ -122,9 +116,14 @@
 
   <body>
     <nav>
-      <a href="#create">Create</a>
-      <a href="#lobby">Lobby</a>
-      <a href="#menu">Menu</a>
+      <% if user_signed_in? %>
+        <a href="#create">Create</a>
+        <a href="#lobby">Lobby</a>
+        <a href="#menu">Menu</a>
+      <% else %>
+        <a href="/users/sign_up">Sign Up</a><br />
+        <a href="/users/sign_in">Sign In</a><br />
+      <% end %>
     </nav>
 
     <h1>Operation Umbra</h1>

@@ -122,7 +122,8 @@ UI.Body = Backbone.View.extend({
 	},
 	events: {
 		"submit form": "create",
-		"click .join_game_button": "joinGame"
+		"click .join_game_button": "joinGame",
+		"click #return_lobby_button": "goToLobby"
 	},
 	create: function(e){
 		// function to create a new game
@@ -177,12 +178,15 @@ UI.Body = Backbone.View.extend({
 			dataType: 'json',
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 			success: function(data){
-				app.current_page = "join"
-				if (ui) ui.remove();
-				var ui = new UI();
+				// app.current_page = "join"
+				// if (ui) ui.remove();
+				// var ui = new UI();
 			}
-
 		})
+		app.start();
+	},
+	goToLobby: function(e){
+		app.lobby();
 	},
 	template: function(template_name){
 		var source;

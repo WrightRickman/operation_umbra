@@ -6,8 +6,6 @@ OperationUmbra::Application.routes.draw do
 
   post "/join" => "games#join_game"
 
-  get "/get_user" => "games#get_user"
-
   get '/current_game' => "games#current_game"
 
   resources :games

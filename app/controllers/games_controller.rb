@@ -65,16 +65,23 @@ class GamesController < ApplicationController
 	def current_game
 		if current_user
 			game = Game.find(current_user.games.first.id)
-			player_ids = []
-			game.users.each do |player|
-				player_ids << player.id
+			if game
+				player_ids = []
+				game.users.each do |player|
+					player_ids << player.id
+				end
+			else
+				game = {}
 			end
+
 			info = {game: game, player_ids: player_ids, current_user: current_user.id}
-			respond_to do |format|
+		else
+			info = {}
+		end
+		respond_to do |format|
 				format.html
 				format.json {render json: info}
 			end
-		end
 	end
 
 	private
