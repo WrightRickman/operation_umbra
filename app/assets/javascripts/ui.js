@@ -4,8 +4,9 @@ var App = Backbone.Router.extend({
 		"": "home",
 		"create": "create",
 		"lobby": "lobby",
-		"start": "start",
+		"adminStart": "adminStart",
 		"current": "current",
+		"start": "start",
 		"menu": "menu",
 		"myGames": "myGames",
 		"pastGames": "pastGames"
@@ -24,41 +25,62 @@ var App = Backbone.Router.extend({
 		var body = new UI.Body();
 		body.openGames();
 	},
-	start: function(){
-		app.current_page = "start"
+	adminStart: function(){
+		app.current_page = "adminStart"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui
+		app.generateUI();
 	},
 	current: function(){
 		app.current_page = "current"
 		if (ui) ui.remove();
 		var ui = app.generateUI();
+		$.ajax({
+			url: '/current_game',
+			method: 'get',
+			dataType: 'json',
+			success: function(data){
+				console.log(data)
+				app.current_game = data["game"]
+			}
+		})
+	},
+	start: function(){
+		app.current_page = "start"
+		if (ui) ui.remove();
+		var ui
+		app.generateUI();
 	},
 	menu: function(){
 		app.current_page = "menu"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui
+		app.generateUI();
 	},
 	myGames: function(){
 		app.current_page = "myGames"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui
+		app.generateUI();
 	},
 	pastGames: function(){
 		app.current_page = "pastGames"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui
+		app.generateUI();
 	},
 	generateUI: function(){
 		$.ajax({
-			url: "/get_user",
+			url: "/current_game",
 			method: "get",
 			dataType: 'json',
 			success: function(data){
-				app.current_user = data
+				app.current_user = data.current_user
+				app.current_game = data.game
+				app.current_players = data.player_ids
+				ui = new UI;
 			}
 		})
-		return new UI();
 	}
 })
 
@@ -177,13 +199,23 @@ UI.Body = Backbone.View.extend({
 				console.log('join');
 				source = $('#join-template').html();
 				break;
-			case "start":
-				console.log('start');
-				source = $('#start-template').html();
-				break;
 			case "current":
 				console.log('current');
 				source = $('#current-template').html();
+				break;
+			case "start":
+				console.log('start');
+				if (app.current_user === null){
+					source = $('#nobody-start-template').html();
+				}
+				else {
+					if (app.current_user == app.current_game.creator_id){
+						source = $('#admin-start-template').html();
+					}
+					else {
+						source = $('#player-start-template').html();
+					}
+				}
 				break;
 			case "menu":
 				console.log('menu');

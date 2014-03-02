@@ -47,9 +47,34 @@
       </div>
     </script>
 
-    <script id="start-template" type="text/x-handlebars-template">
+    <%# start page for admin of game %>
+    <script id="admin-start-template" type="text/x-handlebars-template">
       <div id="wrapper">
-        <h3>Start Game</h3>
+        <h3>Start Game For Admin</h3>
+        <div id="current_game">
+
+        </div>
+        <button id="start_game_button">Start</button><br />
+        <button id="disband_game_button">Disband</button>
+      </div>
+    </script>
+
+    <%# start page for player of game %>
+    <script id="player-start-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Start Game For Player</h3>
+        <div id="current_game">
+
+        </div>
+        <button id="start_game_button">Start</button><br />
+        <button id="disband_game_button">Disband</button>
+      </div>
+    </script>
+
+    <%#start page for sneaky people that like to enter routes they know they shouldn't enter %>
+    <script id="nobody-start-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>Start Game For Nobody</h3>
         <div id="current_game">
 
         </div>
