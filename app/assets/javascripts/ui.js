@@ -24,8 +24,8 @@ var App = Backbone.Router.extend({
 		// come back later to find better way to do this
 		app.current_page = "lobby"
 		var body = new UI.Body();
-		body.openGames();
 		app.generateUI();
+		body.openGames();
 	},
 	adminStart: function(){
 		app.current_page = "adminStart"
