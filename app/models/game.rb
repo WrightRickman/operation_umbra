@@ -1,4 +1,5 @@
 class Game < ActiveRecord::Base
+  attr_accessor :living_players, :assassinated_players
 	has_many :rounds
   has_many :game_players
   has_many :player_missions

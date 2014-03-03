@@ -1,4 +1,5 @@
 class PlayerMission < ActiveRecord::Base
+  attr_accessor :user, :round, :mission
 	belongs_to :user
 	belongs_to :round
 	belongs_to :mission
