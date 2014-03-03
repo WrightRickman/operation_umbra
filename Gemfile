@@ -34,6 +34,9 @@ end
 
 gem 'devise'
 
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 gem 'foundation-rails'
 
 group :development do
