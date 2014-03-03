@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.integer  "mission_id"
     t.integer  "game_id"
     t.integer  "handler_id"
-    t.integer  "agent_id"
+    t.integer  "user_id"
     t.integer  "round_id"
     t.integer  "target_id"
     t.datetime "completed"

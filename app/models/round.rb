@@ -1,19 +1,153 @@
 class Round < ActiveRecord::Base
+  attr_accessor :players, :agents, :unassigned_handlers
+  
 	belongs_to :game
 	has_many :player_missions
   has_many :users, through: :player_missions
 
-  def start(players)
-    # if there are more than two players, proceed as usual
-    if players.length > 2
-      # self.find_living_players.each do |player|
+  @players = nil
+  @agents = nil
+  @unassigned_handlers = nil
 
-      # end
-      puts "there are #{players.length} living players!"
+  def start(players)
+    # set @players to all the round's players
+    @players = players
+    # set @agents to a randomized array of all players
+    @agents = @players.shuffle
+    # set @unassigned_handlers to a randomized array of all players
+    @unassigned_handlers = @players.shuffle
+    # get all missions of round difficulty
+    missions = Mission.where(level: self.difficulty)
+    # if there are more than two players, proceed as usual
+    if @agents.length > 2
+      # give each player his mission
+      @agents.each do |agent|
+        # create the mission
+        mission = PlayerMission.create(:mission_id => missions.sample.id, :game_id => self.game_id, :user_id => agent.id, :round_id => self.id)
+      end
+      # assign the handlers
+      self.assign_all_handlers
+      # reload self
+      self.reload
+      # send the texts
+      self.brief_agents
     # if there are only two players left, proceed into death match    
     else
-      puts "there are two living players!"
+      # get a mission
+      mission = missions.sample
+      # get the handler from the last assassinated player
+      handler = self.game.assassinated_players.last
+      # create the mission for each
+      @agents.each do |agent|
+        PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :user_id => agent.id, :handler_id => handler.id, :round_id => self.id)
+      end
     end
   end
 
+  # method to assign handlers to each mission
+  def assign_all_handlers
+    # go through each mission
+    self.player_missions.each do |mission|
+      # and assign it a handler
+      assign_handler(mission)
+    end
+    # check to make sure that all handlers were set out
+    if !check_handler_distribution
+      # if test failed, start over
+      @unassigned_handlers = @players.shuffle
+      self.assign_all_handlers
+    end
+  end
+
+  # method to assign handlers to a specific mission
+  def assign_handler(mission)
+    # get an unassigned handler
+    handler = @unassigned_handlers.last
+    # check to make sure you aren't assigning a handler to itself
+    if handler != mission.user
+      # set it as the mission's handler
+      mission.handler_id = handler.id
+      # save it
+      mission.save!
+      # remove it from the list of unassigned handlers
+      @unassigned_handlers.pop
+    else
+      # if the handler and the missions's agent are the same, try again
+      assign_handler(mission)
+    end
+  end
+
+  # method to verify that no agent is assigned itself as a handler
+  def check_handler_distribution
+    # set result to true
+    result = true
+    # check each mission
+    self.player_missions.each do |mission|
+      # if the mission's handler is the same as its agent, switch result to false
+      if mission.user_id == mission.handler_id
+        result = false
+      # elsif mission.handler.player_missions.last.handler == 
+      end
+    end
+    # return the result
+    return result
+  end
+
+  # method to instruct each mission to text its player
+  def brief_agents
+    # for each mission
+    self.player_missions.each do |mission|
+      # call its send_message method
+      mission.brief
+    end
+  end
+
+  # method for checking if all the round's missions have been completed
+  # called by PlayerMissions's debrief method
+  def check_missions_status
+    # set completeness to default
+    completeness = true
+    # test each of the round's missions
+    self.player_missions.each do |mission|
+      # if the mission is not complete, set completeness to nil
+      if mission.completed.nil?
+        completeness = false
+      end
+    end
+    # if the round is over, call the end round method
+    if completeness
+      # if there are only two agents and the round is complete
+      self.end_round
+    end
+  end
+
+  # metho to end the round
+  def end_round
+    # set the rounds end time to current time
+    self.round_end = Time.now
+    self.save!
+    # tell the game to start a new round
+    self.game.start_round
+    puts "Smile, give the audience a bow, and bask in the applause. The round is complete, you have come full circle. Rejoice."
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
