@@ -79,7 +79,6 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.string   "last_sign_in_ip"
     t.string   "user_name"
     t.string   "phone_number"
-    t.integer  "current_mission"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "current_game"
