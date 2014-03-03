@@ -1,13 +1,8 @@
-class Round < ActiveRecord::Base
-  attr_accessor :players, :agents, :unassigned_handlers
+class Round < ActiveRecord::Base  
   
 	belongs_to :game
 	has_many :player_missions
   has_many :users, through: :player_missions
-
-  @players = nil
-  @agents = nil
-  @unassigned_handlers = nil
 
   def start(players)
     # set @players to all the round's players
@@ -18,6 +13,7 @@ class Round < ActiveRecord::Base
     @unassigned_handlers = @players.shuffle
     # get all missions of round difficulty
     missions = Mission.where(level: self.difficulty)
+
     # if there are more than two players, proceed as usual
     if @agents.length > 2
       # give each player his mission
@@ -36,7 +32,7 @@ class Round < ActiveRecord::Base
       # get a mission
       mission = missions.sample
       # get the handler from the last assassinated player
-      handler = self.game.assassinated_players.last
+      handler = self.game.last_dead
       # create the mission for each
       @agents.each do |agent|
         PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :user_id => agent.id, :handler_id => handler.id, :round_id => self.id)

@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-  attr_accessor :living_players, :assassinated_players
+  
 	has_many :rounds
   has_many :game_players
   has_many :player_missions
@@ -7,7 +7,6 @@ class Game < ActiveRecord::Base
   has_many :missions, through: :player_missions
 
   @living_players = []
-  @assassinated_players = []
 
   #return all living players
   def set_living_players
@@ -15,6 +14,7 @@ class Game < ActiveRecord::Base
     @living_players = []
     # create an array of all the game's players
     all_players = self.game_players
+
     # check if each player is alive, and if so, add to living array
     all_players.each do |player|
       if player.alive

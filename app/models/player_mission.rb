@@ -1,5 +1,5 @@
 class PlayerMission < ActiveRecord::Base
-  attr_accessor :user, :round, :mission
+  
 	belongs_to :user
 	belongs_to :round
 	belongs_to :mission
@@ -21,13 +21,17 @@ class PlayerMission < ActiveRecord::Base
     self.save!
     self.reload
     # check to see if the round was a deathmatch
-    if self.round.agents.length == 2
+    if self.round.users.length == 2
       # if the round was a deathmatch, the player won!
       self.round.game.end_game(self.user)
     # otherwise, proceed as usual
     else
       self.round.check_missions_status
     end
+  end
+
+  def failure
+
   end
 
 end

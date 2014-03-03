@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.boolean  "completed"
     t.integer  "time_limit"
     t.integer  "creator_id"
+    t.integer  "last_dead"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
