@@ -12,7 +12,10 @@ var App = Backbone.Router.extend({
 		"pastGames": "pastGames"
 	},
 	home: function(){
-		// redirect logic
+		app.generateUI();
+		app.current_page = "home"
+		if (ui) ui.remove();
+		var ui = new UI;
 	},
 	create: function(){
 		app.generateUI();
@@ -215,7 +218,7 @@ UI.Body = Backbone.View.extend({
 		switch (template_name) {
 			case "home":
 				console.log('home');
-				source = $('#create').html();
+				source = $('#home-template').html();
 				break;
 			case "create":
 				console.log('create');
@@ -233,7 +236,7 @@ UI.Body = Backbone.View.extend({
 				console.log('start');
 				// find the template that matches whether the user is the game's creator, one of the game's players, or else someone viewing the page without having joined the game
 				// if the current user is not logged in
-				if (app.current_user === null){
+				if (app.current_user == undefined){
 					// show them the template that directs them to the lobby
 					source = $('#nobody-start-template').html();
 					console.log('nobody')

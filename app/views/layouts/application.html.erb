@@ -10,6 +10,12 @@
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= csrf_meta_tags %> 
 
+    <script id="home-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <p>Please use the menu above to create a new game or join an existing one in our lobby.</p>
+      </div>
+    </script>
+
     <script id="create-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Create Game</h3>
@@ -83,7 +89,9 @@
 
     <script id="current-template" type="text/x-handlebars-template">
       <div id="wrapper">
-        <h3>Current Game</h3>
+        <h3>Handler:</h3>
+        <h4>Press here to accept your Agents mission.</h4>
+        <button id="handler_accept_button">Accept Mission</button>
       </div>
     </script>
 
@@ -91,9 +99,9 @@
       <div id="wrapper">
         <h3>Menu</h3>
           <% if user_signed_in? %>
-          <a href="#start">Start</a><br />
-          <a href="#current">Current</a><br />
-          <a href="#myGames">My Games</a><br />
+          <a href="#start">Waiting Room</a><br />
+          <a href="#current">Current Game</a><br />
+          <a href="#myGames">All My Games</a><br />
           <a href="#pastGames">Past Games</a><br />
           <a href="/users/sign_out" data-method="delete" rel="nofollow">Sign Out</a>
         <% end %>
