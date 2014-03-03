@@ -32,6 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.string :user_name
       t.string :phone_number
+      t.integer :current_mission
 
 
       t.timestamps
