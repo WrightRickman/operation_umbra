@@ -12,6 +12,7 @@ class GamesController < ApplicationController
 			max_difficulty = params["max_difficulty"]
 			#create the game
 			game = Game.create(name: name, max_difficulty: max_difficulty, creator_id: current_user.id)
+			GamePlayer.create(user_id: current_user.id, game_id: game.id)
 			#create a hash to return to the app, with the created game and the creator's id
 			info = {game: game, user: current_user.id}
 		end
