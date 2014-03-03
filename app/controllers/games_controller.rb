@@ -83,7 +83,9 @@ class GamesController < ApplicationController
 				end
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
+				#make some empty elements to send back to the app
 				game = {}
+				player_ids = []
 			end
 			#create an info object with the game, the game's players, and the current user's id
 			info = {game: game, player_ids: player_ids, current_user: current_user.id}
