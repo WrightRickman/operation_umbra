@@ -15,52 +15,54 @@ var App = Backbone.Router.extend({
 		// redirect logic
 	},
 	create: function(){
+		app.generateUI();
 		app.current_page = "create"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui = new UI;
 	},
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
+		app.generateUI();
 		app.current_page = "lobby"
 		var body = new UI.Body();
-		app.generateUI();
 		body.openGames();
 	},
 	adminStart: function(){
+		app.generateUI();
 		app.current_page = "adminStart"
 		if (ui) ui.remove();
-		var ui
-		app.generateUI();
+		var ui = new UI;
 	},
 	current: function(){
+		app.generateUI();
 		app.current_page = "current"
 		if (ui) ui.remove();
-		var ui = app.generateUI();
+		var ui = new UI;
 	},
 	start: function(){
+		app.generateUI();
 		app.current_page = "start"
 		if (ui) ui.remove();
-		var ui
-		app.generateUI();
+		var ui = new UI;
 	},
 	menu: function(){
 		app.current_page = "menu"
 		if (ui) ui.remove();
-		var ui
+		var ui = new UI;
 		app.generateUI();
 	},
 	myGames: function(){
+		app.generateUI();
 		app.current_page = "myGames"
 		if (ui) ui.remove();
-		var ui
-		app.generateUI();
+		var ui = new UI;
 	},
 	pastGames: function(){
+		app.generateUI();
 		app.current_page = "pastGames"
 		if (ui) ui.remove();
-		var ui
-		app.generateUI();
+		var ui = new UI;
 	},
 	generateUI: function(){
 		// makes an ajax call, returning the current user, curren't user's game, and the game's players' ids
@@ -73,7 +75,6 @@ var App = Backbone.Router.extend({
 				app.current_user = data.current_user
 				app.current_game = data.game
 				app.current_players = data.player_ids
-				ui = new UI;
 			}
 		})
 	}
@@ -123,7 +124,8 @@ UI.Body = Backbone.View.extend({
 		// event redirecting players to lobby if viewing the start page without having joined a game
 		"click #return_lobby_button": "goToLobby",
 		// event for a player leaving a game
-		"click #leave_game_button": "leaveGame"
+		"click #leave_game_button": "leaveGame",
+		"click #disband_game_button": "disbandGame"
 	},
 	create: function(e){
 		// function to create a new game
@@ -141,12 +143,9 @@ UI.Body = Backbone.View.extend({
 			method: "post",
 			dataType: "json",
 			data: params,
-			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-			success: function(data){
-				//redirect the user to the start page of the new game
-				app.start();
-			}
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
+		app.start()
 	},
 	// function to return all open games
 	openGames: function(){
@@ -182,7 +181,7 @@ UI.Body = Backbone.View.extend({
 			url: '/join',
 			method: "post",
 			data: params,
-			dataType: 'json',
+			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		// redirect the player to the start page of their current game
@@ -193,13 +192,22 @@ UI.Body = Backbone.View.extend({
 	},
 	leaveGame: function(e){
 		$.ajax({
-			url: '/leave_game',
+			url: "/leave_game",
 			method: "post",
-			dataType: 'json',
+			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		// redirect player to the lobby
 		app.lobby();
+	},
+	disbandGame: function(e){
+		$.ajax({
+			url: "/disband_game",
+			method: "post",
+			dataType: "json",
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+		})
+		app.create();
 	},
 	template: function(template_name){
 		var source;
@@ -228,14 +236,17 @@ UI.Body = Backbone.View.extend({
 				if (app.current_user === null){
 					// show them the template that directs them to the lobby
 					source = $('#nobody-start-template').html();
+					console.log('nobody')
 				}
 				else {
 					// if the player if the creator of the game
 					if (app.current_user == app.current_game.creator_id){
+						console.log('admin')
 						source = $('#admin-start-template').html();
 					}
 					//otherwise, show them the template for the game's players
 					else {
+						console.log('player')
 						source = $('#player-start-template').html();
 					}
 				}
