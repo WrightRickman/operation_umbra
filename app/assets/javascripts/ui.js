@@ -14,8 +14,6 @@ var App = Backbone.Router.extend({
 	home: function(){
 		app.generateUI();
 		app.current_page = "home"
-		if (ui) ui.remove();
-		var ui = new UI;
 	},
 	create: function(){
 		app.generateUI();
