@@ -21,6 +21,8 @@ var App = Backbone.Router.extend({
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
+		var body = new UI.Body
+		body.openGames()
 		app.gameStatus("join", app.generateUI);
 	},
 	adminStart: function(){
@@ -145,14 +147,13 @@ UI.Body = Backbone.View.extend({
 			method: "get",
 			dataType: "json",
 			success: function(data){
+				console.log("boo")
 				//data[0] is the game object
 				//data[1] is the game's players' ids
 				// set app.openGames equal to the game object returned
 				app.openGames = data[0];
 				//recreate the page based on 
-				app.current_page = "join"
-				if (ui) ui.remove();
-				var ui = new UI();
+				app.gameStatus("join", app.generateUI);
 				// check to see if the
 				if (app.openGames.lobby === null){
 					$('#wrapper').append("<p>We do not allow double agents... You must wait until the current game is over, or drop from the current game.</p>")
