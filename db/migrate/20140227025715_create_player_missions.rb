@@ -7,7 +7,7 @@ class CreatePlayerMissions < ActiveRecord::Migration
       t.integer :user_id
       t.integer :round_id
       t.integer :target_id
-      t.datetime :completed
+      t.boolean :success
 
       t.timestamps
     end

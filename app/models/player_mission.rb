@@ -16,8 +16,8 @@ class PlayerMission < ActiveRecord::Base
 
   # method called when a handler accepts a mission
   def debrief
-    # set the mission's completed time to current time
-    self.completed = Time.now
+    # set the mission's success to true and save
+    self.success = true
     self.save!
     self.reload
     # check to see if the round was a deathmatch
@@ -30,8 +30,14 @@ class PlayerMission < ActiveRecord::Base
     end
   end
 
+  # method called when a handler fails a mission
   def failure
-
+    # set the mission's success to false and save
+    self.success = false
+    self.save!
+    self.reload
+    # check to see if the round is complete
+    self.round.check_missions_status
   end
 
 end

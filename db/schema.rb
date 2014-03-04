@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.integer  "user_id"
     t.integer  "game_id"
     t.boolean  "alive",      default: true
+    t.integer  "points"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,7 +54,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.integer  "user_id"
     t.integer  "round_id"
     t.integer  "target_id"
-    t.datetime "completed"
+    t.boolean  "success"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

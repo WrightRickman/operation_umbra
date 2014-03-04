@@ -4,6 +4,7 @@ class CreateGamePlayers < ActiveRecord::Migration
       t.integer :user_id
       t.integer :game_id
       t.boolean :alive, :default => true
+      t.integer :points, :defautl => 0
 
       t.timestamps
     end
