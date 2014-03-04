@@ -48,7 +48,7 @@ class Game < ActiveRecord::Base
   # called when a round's check_mission_status shows complete with 2 agents in the round
   def end_game(winner)
     self.completed = true
-    puts "#{winner.user_name} won the game!"
+    puts "#{winner.user.user_name} won the game!"
   end
 
   def start_round

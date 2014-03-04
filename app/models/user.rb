@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
 	has_many :game_players
-	has_many :player_missions
+	has_many :player_missions, through: :game_players
   has_many :games, through: :game_players
-  has_many :missions, through: :player_missions
 end
