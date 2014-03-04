@@ -21,13 +21,13 @@ class PlayerMission < ActiveRecord::Base
     self.save!
     self.reload
     # increase points for agent
-    current_user_points = self.user.game_players.last.points
-    self.user.game_players.last.points = current_user_points + 2
-    self.user.game_players.last.save!
+    user_player = self.user.game_players.last
+    user_player.points = user_player.points + 2
+    user_player.save!
     # increase the handler's points
-    current_handler_points = self.handler.game_players.last.points
-    self.handler.game_players.last.points = current_handler_points + 1
-    self.handler.game_players.last.save!
+    handler_player = self.handler.game_players.last
+    handler_player.points = handler_player.points + 1
+    handler_player.save!
     # check to see if the round was a deathmatch
     if self.round.users.length == 2
       # if the round was a deathmatch, the player won!
