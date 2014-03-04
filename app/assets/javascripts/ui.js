@@ -12,60 +12,36 @@ var App = Backbone.Router.extend({
 		"pastGames": "pastGames"
 	},
 	home: function(){
-		app.generateUI();
+		app.gameStatus();
 		app.current_page = "home"
 	},
 	create: function(){
-		app.generateUI();
-		app.current_page = "create"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("create", app.generateUI);
 	},
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
-		app.generateUI();
-		app.current_page = "lobby"
-		var body = new UI.Body();
-		body.openGames();
+		app.gameStatus("lobby", app.generateUI);
 	},
 	adminStart: function(){
-		app.generateUI();
-		app.current_page = "adminStart"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("adminStart", app.generateUI);
 	},
 	current: function(){
-		app.generateUI();
-		app.current_page = "current"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("current", app.generateUI);
 	},
 	start: function(){
-		app.generateUI();
-		app.current_page = "start"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("start", app.generateUI);
 	},
 	menu: function(){
-		app.current_page = "menu"
-		if (ui) ui.remove();
-		var ui = new UI;
-		app.generateUI();
+		app.gameStatus("menu", app.generateUI);
 	},
 	myGames: function(){
-		app.generateUI();
-		app.current_page = "myGames"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("myGames", app.generateUI);
 	},
 	pastGames: function(){
-		app.generateUI();
-		app.current_page = "pastGames"
-		if (ui) ui.remove();
-		var ui = new UI;
+		app.gameStatus("pastGames", app.generateUI);
 	},
-	generateUI: function(){
+	gameStatus: function(destination, func){
 		// makes an ajax call, returning the current user, curren't user's game, and the game's players' ids
 		// saves all the information to global variables so that they may be interacted withs
 		$.ajax({
@@ -76,8 +52,15 @@ var App = Backbone.Router.extend({
 				app.current_user = data.current_user
 				app.current_game = data.game
 				app.current_players = data.player_ids
+				func(destination)
 			}
 		})
+		func()
+	},
+	generateUI: function(destination){
+		app.current_page = destination
+		if (ui) ui.remove();
+		var ui = new UI;
 	}
 })
 
