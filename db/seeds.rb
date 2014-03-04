@@ -145,3 +145,7 @@ Mission.create(:description => "Invent a new game. Get all players to play your 
 
 #Level 7: 12-24 hours
 Mission.create(:description => "Take a photo with an actual celebrity.", :level => 7)
+Mission.create(:description => "Find a picture of one of the creators of this game", :level => 7)
+
+#Level 10: Assassinate!
+Mission.create(:description => "", :level => 10, :assassination => true)

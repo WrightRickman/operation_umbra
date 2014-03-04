@@ -16,6 +16,7 @@ class Round < ActiveRecord::Base
 
     # if there are more than two players, proceed as usual
     if @agents.length > 2
+      if self.game.
       # give each player his mission
       @agents.each do |agent|
         # create the mission

@@ -12,6 +12,8 @@ class PlayerMission < ActiveRecord::Base
   # method for sending the player their mission... still coming
   def brief
     # puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
+    # Check to see if the mission is an assassination or not
+
   end
 
   # method called when a handler accepts a mission
@@ -28,6 +30,10 @@ class PlayerMission < ActiveRecord::Base
     handler_player = self.handler.game_players.last
     handler_player.points = handler_player.points + 1
     handler_player.save!
+    # Increment the game's mission count by 1
+    game = self.round.game
+    game.mission_count = game.mission_count + 1
+    game.save!
     # check to see if the round was a deathmatch
     if self.round.users.length == 2
       # if the round was a deathmatch, the player won!

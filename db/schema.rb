@@ -41,8 +41,9 @@ ActiveRecord::Schema.define(version: 20140302200003) do
   end
 
   create_table "missions", force: true do |t|
-    t.string   "description", limit: 160
+    t.string   "description",   limit: 160
     t.integer  "level"
+    t.boolean  "assassination",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
