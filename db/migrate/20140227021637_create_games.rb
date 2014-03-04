@@ -1,7 +1,7 @@
 class CreateGames < ActiveRecord::Migration
   def change
     create_table :games do |t|
-      t.integer :assassin_threshold, :default => 10
+      t.integer :assassin_threshold, :default => 0
       t.string :name, :default => 'Umbra Agency'
       t.integer :min_difficulty, :default => 1
       t.integer :max_difficulty, :default => 2

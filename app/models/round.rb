@@ -5,7 +5,6 @@ class Round < ActiveRecord::Base
   has_many :users, through: :player_missions
 
   def start(players)
-    binding.pry
     # set @players to all the round's players
     @players = players
     # set @agents to a randomized array of all players
@@ -46,7 +45,7 @@ class Round < ActiveRecord::Base
       # get a mission
       mission = missions.sample
       # get the handler from the last assassinated player
-      handler = self.game.last_dead
+      handler = GamePlayer.find(self.game.last_dead)
       # create the mission for each
       @agents.each do |agent|
         PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :user_id => agent.id, :handler_id => handler.id, :round_id => self.id)
@@ -142,6 +141,12 @@ class Round < ActiveRecord::Base
     # tell the game to start a new round
     self.game.start_round
     puts "Smile, give the audience a bow, and bask in the applause. The round is complete, you have come full circle. Rejoice."
+  end
+
+  def force_end
+    self.player_missions.each do |mission|
+      mission.debrief
+    end
   end
 
 end

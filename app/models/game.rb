@@ -18,12 +18,6 @@ class Game < ActiveRecord::Base
         @living_players << player
       end
     end
-    puts "==============================="
-    puts "==============================="
-    puts @living_players
-    puts "==============================="
-    puts "==============================="
-    binding.pry
   end
 
   def get_current_difficulty
@@ -40,28 +34,33 @@ class Game < ActiveRecord::Base
 
   # method for starting game
   def start_game
-    # set game to having been started
-    self.started = true
-    self.save
-    # start a round
-    start_round
-    self.reload
+    if !self.started
+      # set game to having been started
+      self.started = true
+      self.save
+      # start a round
+      start_round
+      self.reload
+    end
   end
 
   # method for ending game
   # called when a round's check_mission_status shows complete with 2 agents in the round
   def end_game(winner)
+    self.completed = true
     puts "#{winner.user_name} won the game!"
   end
 
   def start_round
-    # update living players
-    self.set_living_players
-    # create a new round, setting it's game id, max difficulty, and start time
-    new_round = Round.create(:game_id => self.id, :difficulty => self.get_current_difficulty, :round_start => Time.now)
-    self.reload
-    # call the new round's start method, passing it a list of living players
-    new_round.start(@living_players)
+    if !self.completed
+      # update living players
+      self.set_living_players
+      # create a new round, setting it's game id, max difficulty, and start time
+      new_round = Round.create(:game_id => self.id, :difficulty => self.get_current_difficulty, :round_start => Time.now)
+      self.reload
+      # call the new round's start method, passing it a list of living players
+      new_round.start(@living_players)
+    end
   end
 
 end

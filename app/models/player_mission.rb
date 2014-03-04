@@ -35,12 +35,13 @@ class PlayerMission < ActiveRecord::Base
     game.mission_count = game.mission_count + 1
     game.save!
     # if the mission was an assassination, set the player to dead
-    binding.pry
     if !self.target_id.nil?
-      binding.pry
       target = GamePlayer.find(self.target_id)
       target.alive = false
       target.save!
+      game = self.round.game
+      game.last_dead = target.id
+      game.save!
     end
     # check to see if the round was a deathmatch
     if self.round.users.length == 2
