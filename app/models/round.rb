@@ -104,10 +104,15 @@ class Round < ActiveRecord::Base
     # for each mission
     self.player_missions.each do |mission|
       # call its send_message method
-      message = Mission.find(mission.mission_id).description
+      description = Mission.find(mission.mission_id).description
+      # if it's an assassination, generate the description now
+      if description == ""
+        target = GamePlayer.find(mission.target_id).user.user_name
+        description = "Assassinate #{target}"
+      end
       phone_number = GamePlayer.find(mission.game_player_id).user.phone_number
       handler = GamePlayer.find(mission.handler_id).user.user_name
-      mission.brief(message, phone_number, handler)
+      mission.brief(description, phone_number, handler)
     end
   end
 
