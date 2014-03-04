@@ -12,6 +12,8 @@ OperationUmbra::Application.routes.draw do
 
   post '/disband_game' => "games#disband_game"
 
+  post '/start_game' => "games#start_game"
+
   resources :games
 
   devise_for :users

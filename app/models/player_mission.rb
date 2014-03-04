@@ -11,7 +11,7 @@ class PlayerMission < ActiveRecord::Base
 
   # method for sending the player their mission... still coming
   def brief
-    puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
+    # puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
   end
 
   # method called when a handler accepts a mission

@@ -126,7 +126,14 @@ UI.Body = Backbone.View.extend({
 		"click #return_lobby_button": "goToLobby",
 		// event for a player leaving a game
 		"click #leave_game_button": "leaveGame",
-		"click #disband_game_button": "disbandGame"
+		// event for a game admin to remove all players and delete the game
+		"click #disband_game_button": "disbandGame",
+		// event for starting the game
+		"click #start_game_button": "startGame",
+		// event for a handler accepting an agent's mission
+		"click #handler_accept_button": "acceptMission",
+		// event for a handler rejecting an agent's mission
+		"click #handler_reject_button": "rejectMission"
 	},
 	create: function(e){
 		// function to create a new game
@@ -209,6 +216,24 @@ UI.Body = Backbone.View.extend({
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		app.create();
+	},
+	startGame: function(e){
+		$.ajax({
+			url: "/start_game",
+			method: "post",
+			dataType: "json",
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+		})
+		app.current();
+	},
+	// TODO: In deathmatch mode, handler page has two buttons. There is no failure button here                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+	acceptMission: function(e){
+		$.ajax({
+			url: "",
+			method: "post",
+			dataType: "json",
+			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
+		})
 	},
 	template: function(template_name){
 		var source;
