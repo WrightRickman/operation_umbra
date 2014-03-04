@@ -10,7 +10,8 @@ class Round < ActiveRecord::Base
     # set @agents to a randomized array of all players
     @agents = @players.shuffle
     # set @unassigned_handlers to a randomized array of all players
-    @unassigned_handlers = @players.shuffle
+    @handlers = @players.shuffle
+    @unassigned_handlers = @handlers.shuffle
     # get all missions of round difficulty
     missions = Mission.where(level: self.difficulty)
 
@@ -24,16 +25,19 @@ class Round < ActiveRecord::Base
         assassin_handler = @agents.pop
         assassin_target = @agents.pop
         # create the mission
-        @assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :user_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)
+        @assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :game_player_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)
         # put the handler and assassin back in the @agents array and shuffled it
         @agents << assassin_handler
         @agents << assassin_target
         @agents.shuffle!
+        # remove that handler from @handlers, and reset unassigned handlers
+        @handlers.delete(assassin_handler)
+        @unassigned_handlers = @handlers.shuffle!
       end
       # give each player his mission
       @agents.each do |agent|
         # create the mission
-        mission = PlayerMission.create(:mission_id => missions.sample.id, :game_id => self.game_id, :user_id => agent.id, :round_id => self.id)
+        mission = PlayerMission.create(:mission_id => missions.sample.id, :game_id => self.game_id, :game_player_id => agent.id, :round_id => self.id)
       end
       # assign the handlers
       self.assign_all_handlers
@@ -48,7 +52,7 @@ class Round < ActiveRecord::Base
       handler = GamePlayer.find(self.game.last_dead)
       # create the mission for each
       @agents.each do |agent|
-        PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :user_id => agent.id, :handler_id => handler.id, :round_id => self.id)
+        PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :game_player_id => agent.id, :handler_id => handler.id, :round_id => self.id)
       end
     end
   end
@@ -63,7 +67,7 @@ class Round < ActiveRecord::Base
     # check to make sure that all handlers were set out
     if !check_handler_distribution
       # if test failed, start over
-      @unassigned_handlers = @players.shuffle
+      @unassigned_handlers = @handlers.shuffle
       self.assign_all_handlers
     end
   end
@@ -74,9 +78,7 @@ class Round < ActiveRecord::Base
     handler = @unassigned_handlers.last
     # check to make sure you aren't assigning a handler to itself
     if handler != mission.user
-      # set it as the mission's handler
       mission.handler_id = handler.id
-      # save it
       mission.save!
       # remove it from the list of unassigned handlers
       @unassigned_handlers.pop
@@ -95,7 +97,7 @@ class Round < ActiveRecord::Base
       # only evaluate if the mission is not an assassination
       if mission != @assassination
         # if the mission's handler is the same as its agent, switch result to false
-        if mission.user_id == mission.handler_id
+        if mission.game_player_id == mission.handler_id
           result = false
         # elsif mission.handler.player_missions.last.handler == 
         end
@@ -143,6 +145,7 @@ class Round < ActiveRecord::Base
     puts "Smile, give the audience a bow, and bask in the applause. The round is complete, you have come full circle. Rejoice."
   end
 
+  # testing method for ending round with all missions accepted
   def force_end
     self.player_missions.each do |mission|
       mission.debrief

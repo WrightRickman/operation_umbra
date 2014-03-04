@@ -1,6 +1,6 @@
 class PlayerMission < ActiveRecord::Base
   
-	belongs_to :user
+  belongs_to :game_player
 	belongs_to :round
 	belongs_to :mission
 
@@ -13,7 +13,7 @@ class PlayerMission < ActiveRecord::Base
   def brief
     # puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
     # Check to see if the mission is an assassination or not
-    puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
+    puts "I am briefing #{self.game_player.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
   end
 
   # method called when a handler accepts a mission
@@ -23,10 +23,11 @@ class PlayerMission < ActiveRecord::Base
     self.save!
     self.reload
     # increase points for agent
-    user_player = self.user.game_players.last
+    user_player = self.game_player
     user_player.points = user_player.points + 2
     user_player.save!
     # increase the handler's points
+    binding.pry
     handler_player = self.handler.game_players.last
     handler_player.points = handler_player.points + 1
     handler_player.save!
