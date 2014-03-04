@@ -21,7 +21,7 @@ var App = Backbone.Router.extend({
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
-		app.gameStatus("lobby", app.generateUI);
+		app.gameStatus("join", app.generateUI);
 	},
 	adminStart: function(){
 		app.gameStatus("adminStart", app.generateUI);
