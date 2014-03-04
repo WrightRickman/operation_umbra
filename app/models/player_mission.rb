@@ -16,7 +16,7 @@ class PlayerMission < ActiveRecord::Base
     auth_token = '03fda3cb1fb25da94e121f1747972a02'
     @client = Twilio::REST::Client.new account_sid, auth_token
 
-    message = @client.account.sms.messages.create(:body => "<~Attn Agent~> \n Your Mission: #{description}. \n #{handler} is overseeing your mission. Complete your mission and bring them proof." ,
+    message = @client.account.sms.messages.create(:body => "<~Attn Agent~> \n Your Mission: #{description} \n #{handler} is overseeing your mission. Complete your mission and bring them proof." ,
     :to => "+1#{phone_number}",    
     :from => "+19177465955")  
     puts message.sid
