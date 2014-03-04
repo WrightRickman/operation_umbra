@@ -106,7 +106,7 @@ class Round < ActiveRecord::Base
     # test each of the round's missions
     self.player_missions.each do |mission|
       # if the mission is not complete, set completeness to nil
-      if mission.completed.nil?
+      if mission.success.nil?
         completeness = false
       end
     end

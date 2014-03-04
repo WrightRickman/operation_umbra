@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.integer  "user_id"
     t.integer  "game_id"
     t.boolean  "alive",      default: true
-    t.integer  "points"
+    t.integer  "points",     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
