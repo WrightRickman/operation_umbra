@@ -79,10 +79,23 @@
     <%#start page for sneaky people that like to enter routes they know they shouldn't enter %>
     <script id="nobody-start-template" type="text/x-handlebars-template">
       <div id="wrapper">
+        <h3>You are not in a game</h3>
+        <p>Click below to go to the lobby and pick a game.</p>
         <div id="current_game">
 
         </div>
         <button id="return_lobby_button">Return to Lobby</button><br />
+      </div>
+    </script>
+
+    <script id="game-started-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <h3>The game is in progress.</h3>
+        <p>Click below to return to your current game.</p>
+        <div id="current_game">
+
+        </div>
+        <button id="current_game_button">My Current Game</button>
       </div>
     </script>
 
