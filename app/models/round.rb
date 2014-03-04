@@ -16,7 +16,14 @@ class Round < ActiveRecord::Base
 
     # if there are more than two players, proceed as usual
     if @agents.length > 2
-      if self.game.
+      if self.game.mission_count >= self.game.assassin_theshold
+        assassin = @agents.pop
+        assassin_handler = @agents.pop
+        assassin_target = @agents.pop
+        PlayerMission.create(:mission_id => Mission.where(assassination: true).id, :game_id => self.game_id, :user_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)
+        @agents << assassin_handler
+        @agents << assassin_target
+      end
       # give each player his mission
       @agents.each do |agent|
         # create the mission
