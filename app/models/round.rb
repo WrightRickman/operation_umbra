@@ -16,6 +16,20 @@ class Round < ActiveRecord::Base
 
     # if there are more than two players, proceed as usual
     if @agents.length > 2
+      # check to see if assassinations are enabled
+      if self.game.mission_count >= self.game.assassin_threshold
+        # find an assassin, handler and target
+        assassin = @agents.pop
+        # handler and target popped so to guarantee they are not the same player
+        assassin_handler = @agents.pop
+        assassin_target = @agents.pop
+        # create the mission
+        @assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :user_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)
+        # put the handler and assassin back in the @agents array and shuffled it
+        @agents << assassin_handler
+        @agents << assassin_target
+        @agents.shuffle!
+      end
       # give each player his mission
       @agents.each do |agent|
         # create the mission
@@ -23,7 +37,6 @@ class Round < ActiveRecord::Base
       end
       # assign the handlers
       self.assign_all_handlers
-      # reload self
       self.reload
       # send the texts
       self.brief_agents
@@ -32,7 +45,7 @@ class Round < ActiveRecord::Base
       # get a mission
       mission = missions.sample
       # get the handler from the last assassinated player
-      handler = self.game.last_dead
+      handler = GamePlayer.find(self.game.last_dead)
       # create the mission for each
       @agents.each do |agent|
         PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :user_id => agent.id, :handler_id => handler.id, :round_id => self.id)
@@ -79,10 +92,13 @@ class Round < ActiveRecord::Base
     result = true
     # check each mission
     self.player_missions.each do |mission|
-      # if the mission's handler is the same as its agent, switch result to false
-      if mission.user_id == mission.handler_id
-        result = false
-      # elsif mission.handler.player_missions.last.handler == 
+      # only evaluate if the mission is not an assassination
+      if mission != @assassination
+        # if the mission's handler is the same as its agent, switch result to false
+        if mission.user_id == mission.handler_id
+          result = false
+        # elsif mission.handler.player_missions.last.handler == 
+        end
       end
     end
     # return the result
@@ -128,6 +144,12 @@ class Round < ActiveRecord::Base
     # tell the game to start a new round
     self.game.start_round
     puts "Smile, give the audience a bow, and bask in the applause. The round is complete, you have come full circle. Rejoice."
+  end
+
+  def force_end
+    self.player_missions.each do |mission|
+      mission.debrief
+    end
   end
 
 end

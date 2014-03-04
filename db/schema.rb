@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
   end
 
   create_table "games", force: true do |t|
-    t.integer  "assassin_threshold", default: 10
+    t.integer  "assassin_threshold", default: 0
     t.string   "name",               default: "Umbra Agency"
     t.integer  "min_difficulty",     default: 1
     t.integer  "max_difficulty",     default: 2
@@ -41,8 +41,9 @@ ActiveRecord::Schema.define(version: 20140302200003) do
   end
 
   create_table "missions", force: true do |t|
-    t.string   "description", limit: 160
+    t.string   "description",   limit: 160
     t.integer  "level"
+    t.boolean  "assassination",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

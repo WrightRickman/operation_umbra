@@ -19,7 +19,6 @@ class PlayerMission < ActiveRecord::Base
     :to => "+1#{phone_number}",    
     :from => "+19177465955")  
     puts message.sid
-  end
 
   # method called when a handler accepts a mission
   def debrief
@@ -35,6 +34,19 @@ class PlayerMission < ActiveRecord::Base
     handler_player = self.handler.game_players.last
     handler_player.points = handler_player.points + 1
     handler_player.save!
+    # Increment the game's mission count by 1
+    game = self.round.game
+    game.mission_count = game.mission_count + 1
+    game.save!
+    # if the mission was an assassination, set the player to dead
+    if !self.target_id.nil?
+      target = GamePlayer.find(self.target_id)
+      target.alive = false
+      target.save!
+      game = self.round.game
+      game.last_dead = target.id
+      game.save!
+    end
     # check to see if the round was a deathmatch
     if self.round.users.length == 2
       # if the round was a deathmatch, the player won!
