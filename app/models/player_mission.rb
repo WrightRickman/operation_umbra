@@ -13,7 +13,7 @@ class PlayerMission < ActiveRecord::Base
   def brief
     # puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
     # Check to see if the mission is an assassination or not
-
+    puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
   end
 
   # method called when a handler accepts a mission

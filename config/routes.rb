@@ -14,6 +14,10 @@ OperationUmbra::Application.routes.draw do
 
   post '/start_game' => "games#start_game"
 
+  post '/accept_mission' => "games#accept_mission"
+
+  post '/reject_mission' => "games#reject_mission"
+
   resources :games
 
   devise_for :users

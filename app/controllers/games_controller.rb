@@ -160,6 +160,30 @@ class GamesController < ApplicationController
 		end
 	end
 
+	def accept_mission
+		if current_user.current_game != nil
+			mission = PlayerMission.where(handler_id: current_user.id)
+			mission[0].debrief
+		end
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end
+	end
+
+		def reject_mission
+		if current_user.current_game != nil
+			mission = PlayerMission.where(handler_id: current_user.id)
+			mission[0].failure
+		end
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end
+	end
+
 	private
 
 	def game_params
