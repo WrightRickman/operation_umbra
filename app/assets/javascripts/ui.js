@@ -153,7 +153,7 @@ UI.Body = Backbone.View.extend({
 			data: params,
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
-		app.start()
+		app.navigate("#adminStart", {trigger: true, replace: true});
 	},
 	// function to return all open games
 	openGames: function(){
@@ -193,10 +193,10 @@ UI.Body = Backbone.View.extend({
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		// redirect the player to the start page of their current game
-		app.start();
+		app.navigate("#start", {trigger: true, replace: true});
 	},
 	goToLobby: function(e){
-		app.lobby();
+		app.navigate("#lobby", {trigger: true, replace: true});
 	},
 	leaveGame: function(e){
 		$.ajax({
@@ -206,7 +206,7 @@ UI.Body = Backbone.View.extend({
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
 		// redirect player to the lobby
-		app.lobby();
+		app.navigate("#lobby", {trigger: true, replace: true});
 	},
 	disbandGame: function(e){
 		$.ajax({
@@ -215,7 +215,7 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
-		app.create();
+		app.navigate("#create", {trigger: true, replace: true});
 	},
 	startGame: function(e){
 		$.ajax({
@@ -224,7 +224,7 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
-		app.current();
+		app.navigate("#current", {trigger: true, replace: true});
 	},
 	// TODO: In deathmatch mode, handler page has two buttons. There is no failure button here                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	acceptMission: function(e){
@@ -234,7 +234,7 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
-		app.start();
+		app.navigate("#start", {trigger: true, replace: true});
 	},
 	rejectMission: function(e){
 		$.ajax({
@@ -243,7 +243,7 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))}
 		})
-		app.start();
+		app.navigate("#start", {trigger: true, replace: true});
 	},
 	template: function(template_name){
 		var source;
@@ -286,6 +286,10 @@ UI.Body = Backbone.View.extend({
 						source = $('#player-start-template').html();
 					}
 				}
+				break;
+			case "adminStart":
+				console.log('admin')
+				source = $('#admin-start-template').html();
 				break;
 			case "menu":
 				console.log('menu');
