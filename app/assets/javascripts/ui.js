@@ -269,23 +269,38 @@ UI.Body = Backbone.View.extend({
 				console.log('start');
 				// find the template that matches whether the user is the game's creator, one of the game's players, or else someone viewing the page without having joined the game
 				// if the current user is not logged in
-				if (app.current_user == undefined){
-					// show them the template that directs them to the lobby
-					source = $('#nobody-start-template').html();
-					console.log('nobody')
-				}
-				else {
-					// if the player if the creator of the game
-					if (app.current_user == app.current_game.creator_id){
+
+				if (app.current_user == app.current_game.creator_id) {
 						console.log('admin')
 						source = $('#admin-start-template').html();
-					}
-					//otherwise, show them the template for the game's players
-					else {
+				}
+				else {
+					if (app.current_user != app.current_game.creator_id) {
 						console.log('player')
 						source = $('#player-start-template').html();
 					}
+					else {
+						source = $('#nobody-start-template').html();
+						console.log('nobody')
+					}
 				}
+				// if (app.current_user == undefined){
+				// 	// show them the template that directs them to the lobby
+				// 	source = $('#nobody-start-template').html();
+				// 	console.log('nobody')
+				// }
+				// else {
+				// 	// if the player if the creator of the game
+				// 	if (app.current_user == app.current_game.creator_id){
+				// 		console.log('admin')
+				// 		source = $('#admin-start-template').html();
+				// 	}
+				// 	//otherwise, show them the template for the game's players
+				// 	else {
+				// 		console.log('player')
+				// 		source = $('#player-start-template').html();
+				// 	}
+				// }
 				break;
 			case "adminStart":
 				console.log('admin')

@@ -89,8 +89,10 @@
     <script id="current-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Handler:</h3>
-        <h4>Accept or reject your Agents mission.</h4>
+        <h5>"Review your Agent's mission and proof."</h5>
+        <h5>Accept or reject your Agents mission.</h5>
         <button id="handler_accept_button">Accept Mission</button>
+        <br />
         <button id="handler_reject_button">Reject Mission</button>
       </div>
     </script>
@@ -108,10 +110,15 @@
       <div id="wrapper">
         <h3>Menu</h3>
           <% if user_signed_in? %>
-          <a href="#start">Waiting Room</a><br />
           <a href="#current">Current Game</a><br />
-          <a href="#myGames">All My Games</a><br />
+          <p>My current game.</p>
+         
+          <a href="#start">Waiting Room</a><br />
+          <p>Admins: Start a game. Players: Wait for a game to start.</p>
+          
           <a href="#pastGames">Past Games</a><br />
+          <p>Games played previously.</p>
+          
           <a href="/users/sign_out" data-method="delete" rel="nofollow">Sign Out</a>
         <% end %>
       </div>
@@ -126,6 +133,7 @@
     <script id="pastGames-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Past Games</h3>
+        <p>Coming soon.</p>
       </div>
     </script>
 
