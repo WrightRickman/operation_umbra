@@ -10,10 +10,18 @@ class PlayerMission < ActiveRecord::Base
   end
 
   # method for sending the player their mission... still coming
-  def brief
+  def brief(message, phone_number, handler)
     # puts "I am briefing #{self.user.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
     # Check to see if the mission is an assassination or not
     puts "I am briefing #{self.game_player.user_name}. This player's agent is #{self.handler.user_name}, and their mission is to #{self.mission.description}"
+    # account_sid = 'ACe3077fe23fe1139751ed954c6a9ca95a'
+    # auth_token = '03fda3cb1fb25da94e121f1747972a02'
+    # @client = Twilio::REST::Client.new account_sid, auth_token
+
+    # message = @client.account.sms.messages.create(:body => "==Attn Agent== \n Your Mission: #{message}. \n #{handler} is overseeing your mission. Complete your mission and bring them proof." ,
+    # :to => "+1#{phone_number}",    
+    # :from => "+19177465955")  
+    # puts message.sid
   end
 
   # method called when a handler accepts a mission

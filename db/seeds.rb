@@ -10,8 +10,8 @@ this_game = Game.create(:name => "The Tenth Plaguers", :max_difficulty => 3, :cr
 yaniv.current_game = this_game.id
 yaniv.save!
 wright = User.create(:user_name => "Wright", :email => "wright@email.com", :password => "password456", :phone_number => "5166552432", :current_game => this_game.id)
-bushkanets = User.create(:user_name => "Danny", :email => "danny@email.com", :password => "password123", :phone_number => "5551234567", :current_game => this_game.id)
-princess_pretzel = User.create(:user_name => "Brittany", :email => "brittany@email.com", :password => "password123", :phone_number => "5552345678", :current_game => this_game.id)
+bushkanets = User.create(:user_name => "Danny", :email => "danny@email.com", :password => "password123", :phone_number => "5166552432", :current_game => this_game.id)
+princess_pretzel = User.create(:user_name => "Brittany", :email => "brittany@email.com", :password => "password123", :phone_number => "9736193328", :current_game => this_game.id)
 GamePlayer.create(:user_id => yaniv.id, :game_id => this_game.id)
 GamePlayer.create(:user_id => wright.id, :game_id => this_game.id)
 GamePlayer.create(:user_id => bushkanets.id, :game_id => this_game.id)
@@ -67,7 +67,8 @@ Mission.create(:description => "Find a person in a necktie.", :level => 1)
 Mission.create(:description => "Find a person in sunglasses.", :level => 1)
 Mission.create(:description => "Find a book.", :level => 1)
 Mission.create(:description => "Find a magazine.", :level => 1)
-Mission.create(:description => "Throw a penny in a fountain.", :level => 1)
+Mission.create(:description => "Throw a penny into a fountain.", :level => 1)
+Mission.create(:description => "Reenact an internet meme in front of your handler.", :level => 1)
 
 #Level 2: 2-10 minutes
 Mission.create(:description => "Find a person wearing blue.", :level => 2)
