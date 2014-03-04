@@ -74,7 +74,7 @@ class GamesController < ApplicationController
 			#check to see if the user is involved in any games
 			if !current_user.games.empty?
 				#find the current user's current game
-				#this is a messy way of handling the user information. If time allows, should improve both models and relations to allow for cleaner code.
+				# ICEBOX this is a messy way of handling the user information. If time allows, should improve both models and relations to allow for cleaner code.
 				game = Game.find(current_user.games.first.id)
 				player_ids = []
 				#add the ide of each player in the game to the player_id's array
@@ -140,6 +140,18 @@ class GamesController < ApplicationController
 			end
 
 			Game.destroy(game_to_remove)
+		end
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end
+	end
+
+	def start_game
+		if current_user.current_game != nil
+			game = Game.find(current_user.games.first.id)
+			game.start_game
 		end
 
 		respond_to do |format|

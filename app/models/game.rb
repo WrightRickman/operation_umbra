@@ -39,6 +39,7 @@ class Game < ActiveRecord::Base
   def start_game
     # set game to having been started
     self.started = true
+    self.save!
     # start a round
     start_round
     self.reload

@@ -145,30 +145,3 @@ Mission.create(:description => "Invent a new game. Get all players to play your 
 
 #Level 7: 12-24 hours
 Mission.create(:description => "Take a photo with an actual celebrity.", :level => 7)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-Mission.create(:description => "Find a mailbox", :level => 1)
-Mission.create(:description => "Find a water bottle", :level => 1)
-Mission.create(:description => "Find a tree", :level => 1)
-Mission.create(:description => "High five a stranger in front of your handler", level: 1)
-Mission.create(:description => "Hug a stranger", :level => 2)
-Mission.create(:description => "Find a person wearing red", :level => 2)
-Mission.create(:description => "Find a receipt for $2 or less", :level => 2)
-Mission.create(:description => "Assassinate your target", :level => 10)
->>>>>>> f3ec4e247490714f72c9f67791cfe52995cd8550
