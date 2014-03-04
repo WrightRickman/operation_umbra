@@ -94,7 +94,10 @@ class Round < ActiveRecord::Base
     # for each mission
     self.player_missions.each do |mission|
       # call its send_message method
-      mission.brief
+      message = Mission.find(mission.mission_id).description
+      phone_number = User.find(mission.user_id).phone_number
+      handler = User.find(mission.handler_id).user_name
+      mission.brief(message, phone_number, handler)
     end
   end
 
