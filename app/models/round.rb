@@ -5,6 +5,7 @@ class Round < ActiveRecord::Base
   has_many :users, through: :player_missions
 
   def start(players)
+    binding.pry
     # set @players to all the round's players
     @players = players
     # set @agents to a randomized array of all players
@@ -37,7 +38,6 @@ class Round < ActiveRecord::Base
       end
       # assign the handlers
       self.assign_all_handlers
-      # reload self
       self.reload
       # send the texts
       self.brief_agents

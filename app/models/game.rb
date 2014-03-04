@@ -12,13 +12,18 @@ class Game < ActiveRecord::Base
   def set_living_players
     # reset living_players
     @living_players = []
-    binding.pry
     # check if each player is alive, and if so, add to living array
     self.game_players.each do |player|
       if player.alive
         @living_players << player
       end
     end
+    puts "==============================="
+    puts "==============================="
+    puts @living_players
+    puts "==============================="
+    puts "==============================="
+    binding.pry
   end
 
   def get_current_difficulty
