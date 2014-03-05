@@ -34,13 +34,15 @@ class Game < ActiveRecord::Base
 
   # method for starting game
   def start_game
-    if !self.started
-      # set game to having been started
-      self.started = true
-      self.save
-      # start a round
-      start_round
-      self.reload
+    if self.game_players.length >= 3
+      if !self.started
+        # set game to having been started
+        self.started = true
+        self.save
+        # start a round
+        start_round
+        self.reload
+      end
     end
   end
 
