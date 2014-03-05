@@ -7,8 +7,6 @@ PlayerMission.destroy_all
 
 yaniv = User.create(:user_name => "Yaniv", :email => "yaniv@email.com", :password => "password123", :phone_number => "9736193328")
 wright = User.create(:user_name => "Wright", :email => "wright@email.com", :password => "password456", :phone_number => "5166552432")
-bushkanets = User.create(:user_name => "Danny", :email => "danny@email.com", :password => "password123", :phone_number => "5166552432")
-princess_pretzel = User.create(:user_name => "Brittany", :email => "brittany@email.com", :password => "password123", :phone_number => "9736193328")
 
 #======== Missions ==========
 
