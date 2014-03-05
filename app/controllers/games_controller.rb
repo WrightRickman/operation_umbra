@@ -13,6 +13,8 @@ class GamesController < ApplicationController
 			#create the game
 			game = Game.create(name: name, max_difficulty: max_difficulty, creator_id: current_user.id)
 			game_player = GamePlayer.create(user_id: current_user.id, game_id: game.id)
+			current_user.current_game = game.id
+			current_user.save!
 			#create a hash to return to the app, with the created game and the creator's id
 			info = {game: game, user: current_user.id}
 
