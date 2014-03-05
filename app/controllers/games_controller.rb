@@ -85,8 +85,8 @@ class GamesController < ApplicationController
 				game.users.each do |player|
 					player_ids << player.id
 				end
-				if game.game_players.length < 3
-					last_dead = GamePlayers.find(game.last_dead)
+				if game.game_players.length == 2 && game.started == true
+					last_dead = GamePlayer.find(game.last_dead)
 				end	
 				user_game_player = GamePlayer.where(user_id: current_user.id).first
 				handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
