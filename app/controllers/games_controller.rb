@@ -136,8 +136,8 @@ class GamesController < ApplicationController
 				user.save!
 			end
 			# remove that game and the game_player association
-			game_to_remove = Game.where(creator_id: current_user.id)
-			game_players_to_remove = GamePlayer.where(game_id: game_to_remove[0].id)
+			game_to_remove = Game.where(creator_id: current_user.id).first
+			game_players_to_remove = GamePlayer.where(game_id: game_to_remove.id)
 
 			game_players_to_remove.each do |game_player|
 				GamePlayer.destroy(game_player)
