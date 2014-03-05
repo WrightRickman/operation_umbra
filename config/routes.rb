@@ -18,6 +18,8 @@ OperationUmbra::Application.routes.draw do
 
   post '/reject_mission' => "games#reject_mission"
 
+  get '/final_mission' => "games#final_mission"
+
   resources :games
 
   devise_for :users

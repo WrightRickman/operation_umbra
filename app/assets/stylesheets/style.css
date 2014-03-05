@@ -1,3 +1,91 @@
-html {
-	
+html { background-color: #292C37; }
+
+body {
+	margin: 0 auto;
+	max-width: 480px;
+	height: 100%;
+	background-color: #990303;
+	box-shadow: 0px 0px 50px #000;
+}
+
+#wrapper button {
+	display: inline;
+}
+
+a {
+	font-family: 'Play', sans-serif;
+	font-weight: 700;
+	color: #141414;
+}
+
+a:hover {
+	color: #BCBCBC;
+	margin-top: 4px;
+}
+
+nav {
+	max-width: 480px;
+	background-color: #7D0000;
+	box-shadow: 0px 5px 0px #520000;
+	padding: 8px 0;
+}
+
+nav a { margin: 0 54px; }
+
+h1 {
+	text-align: center;
+	font-family: 'Russo One', sans-serif;
+	color: #292C37;
+	text-shadow: 0px 1px 0px #000,
+							 0px 2px 0px #000,
+							 0px 3px 0px #000,
+							 0px 4px 0px #000,
+							 0px 5px 0px #000;
+}
+
+h2, h3 {
+	font-family: 'Play', sans-serif;
+	font-weight: 700;
+	color: #141414;
+	text-align: center;
+}
+
+label { color: #292C37; }
+
+button {
+	margin: 10px 9.5% 0 9.5%;
+	background-color: #292C37;
+	box-shadow: 0px 1px 0px #000,
+							0px 2px 0px #000,
+							0px 3px 0px #000,
+							0px 4px 0px #000,
+							0px 5px 0px #000;
+	color: #BCBCBC;
+	width: 130px;
+}
+
+button:hover { 
+	background-color: #7D0000;
+	box-shadow: 0px 1px 0px #520000,
+							0px 2px 0px #520000,
+							0px 3px 0px #520000,
+							0px 4px 0px #520000,
+							0px 5px 0px #520000;
+	color: #BCBCBC;
+}
+
+table { box-shadow: 0px -6px 0px #BF0404; }
+
+#state_frame { 
+	width: 90%;
+	margin: 0 auto; 
+}
+
+#operation {
+	font-size: 4em;
+}
+
+#umbra {
+	font-size: 3.5em;
+	margin-top: -35px;
 }

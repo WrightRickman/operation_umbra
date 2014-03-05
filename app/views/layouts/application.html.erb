@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href='http://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Play:700' rel='stylesheet' type='text/css'>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -20,7 +22,11 @@
       <div id="wrapper">
         <h3>Create Game</h3>
         <form>
-          <input id="agency_name_input" placeholder='Agency Name'><br />
+          <label>Agency Name</label>
+          <input id="agency_name_input" placeholder='Agency Name'>
+          <br />
+          <br />
+          <label>Difficulty From 1 - 7</label>
           <input id="end_difficulty_input" placeholder='Difficulty (1-7)'><br />
           <button id="create_game_submit">Enlist</button>
         </form>
@@ -58,7 +64,7 @@
         <div id="current_game">
 
         </div>
-        <button id="start_game_button">Start</button><br />
+        <button id="start_game_button">Start</button>
         <button id="disband_game_button">Disband</button>
       </div>
     </script>
@@ -108,7 +114,7 @@
       </div>
     </script>
 
-    <script id="final-current-template" type="text/x-handlebars-template">
+    <script id="final-mission-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Handler:</h3>
         <h4>Accept or reject your Agents mission.</h4>
@@ -162,7 +168,8 @@
       <% end %>
     </nav>
 
-    <h1>Operation Umbra</h1>
+    <h1 id="operation">OPERATION </h1>
+    <h1 id="umbra">=UMBRA=</h1>
 
     <div id="state_frame">
 

@@ -9,7 +9,8 @@ var App = Backbone.Router.extend({
 		"start": "start",
 		"menu": "menu",
 		"myGames": "myGames",
-		"pastGames": "pastGames"
+		"pastGames": "pastGames",
+		"finalMission": "finalMission"
 	},
 	home: function(){
 		app.gameStatus();
@@ -44,6 +45,9 @@ var App = Backbone.Router.extend({
 	pastGames: function(){
 		app.gameStatus("pastGames", app.generateUI);
 	},
+	finalMission: function(){
+		app.gameStatus("finalMission", app.generateUI);
+	},
 	gameStatus: function(destination, func){
 		// makes an ajax call, returning the current user, curren't user's game, and the game's players' ids
 		// saves all the information to global variables so that they may be interacted withs
@@ -58,6 +62,19 @@ var App = Backbone.Router.extend({
 				func(destination)
 			}
 		})
+
+		if (app.current_game.last_dead != null) {
+			app.navigate("#finalMission", {trigger: true, replace: true});
+			$.ajax({
+				url: "/final_mission",
+				method: "get",
+				dataType: "json",
+				success: function(data){
+					// app.generateUI("join");
+					app.finalTwo = data
+				}
+			})
+		}
 	},
 	generateUI: function(destination){
 		app.current_page = destination
@@ -290,6 +307,16 @@ UI.Body = Backbone.View.extend({
 						console.log('nobody')
 				}
 				break;
+			case "finalMission":
+				if (app.current_user == app.current_game.last_dead) {
+					console.log('final mission')
+					source = $('#final-current-template').html();
+				}
+				// FOR THE FUTURE
+				// else {
+				// 	console.log('please wait')
+				// 	source = $('#mission-accepted-template').html();
+				// }
 			case "adminStart":
 				console.log('admin')
 				source = $('#admin-start-template').html();

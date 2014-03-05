@@ -85,14 +85,18 @@ class GamesController < ApplicationController
 				game.users.each do |player|
 					player_ids << player.id
 				end
+			if game.game_players.length < 3
+				last_dead = GamePlayers.find(game.last_dead)
+			end	
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
 				#make some empty elements to send back to the app
 				game = {}
 				player_ids = []
+				last_dead = {}
 			end
 			#create an info object with the game, the game's players, and the current user's id
-			info = {game: game, player_ids: player_ids, current_user: current_user.id}
+			info = {game: game, player_ids: player_ids, current_user: current_user.id, last_dead: last_dead}
 		#if the user is not logged in, create an empty object to send back to the app
 		else
 			info = {}
@@ -186,6 +190,17 @@ class GamesController < ApplicationController
 			format.html
 			format.json {render json: {}}
 		end
+	end
+
+	def final_mission
+		puts "==============="
+		puts final_two
+		puts "==============="
+
+		respond_to do |format|
+			format.html
+			format.json {render json: {}}
+		end 
 	end
 
 	private
