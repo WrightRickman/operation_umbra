@@ -29,27 +29,25 @@
 
     <script id="join-template" type="text/x-handlebars-template">
       <div id="wrapper">
-         <div id="wrapper">
-          <h3>Lobby</h3>
-          <table>
-            <thead>
-              <th>Game ID</th>
-              <th>Agency Name</th>
-              <th>Security Level</th>
-              <th></th>
-            </thead>
-            <tbody>
-              {{#each lobby}}
-                <tr>
-                  <td>{{id}}</td>
-                  <td>{{name}}</td>
-                  <td>{{max_difficulty}}</td>
-                  <td><button class="join_game_button">Join Game</button></td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
+        <h3>Lobby</h3>
+        <table>
+          <thead>
+            <th>Game ID</th>
+            <th>Agency Name</th>
+            <th>Security Level</th>
+            <th></th>
+          </thead>
+          <tbody>
+            {{#each lobby}}
+              <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{max_difficulty}}</td>
+                <td><button class="join_game_button">Join Game</button></td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
       </div>
     </script>
 
