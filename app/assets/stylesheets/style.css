@@ -10,6 +10,13 @@ body {
 
 #wrapper button { display: inline; }
 
+#wrapper a { 
+	background-color: #7D0000;
+	box-shadow: 0px 5px 0px #520000;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
 a {
 	font-family: 'Play', sans-serif;
 	font-weight: 700;
@@ -93,5 +100,5 @@ table {
 	#operation { font-size: 3em; }
 	#umbra { font-size: 2.5em; }
 	nav a { margin: 0 9%; }
-	button { margin: 10px 0.5% 0 5.5% }
+	button { margin: 10px 0.5% 0 5% }
 }
