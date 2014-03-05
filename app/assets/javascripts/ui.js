@@ -13,8 +13,7 @@ var App = Backbone.Router.extend({
 		"finalMission": "finalMission"
 	},
 	home: function(){
-		app.gameStatus();
-		app.current_page = "home"
+		app.gameStatus("current", app.generateUI);
 	},
 	create: function(){
 		app.gameStatus("create", app.generateUI);
@@ -138,7 +137,9 @@ UI.Body = Backbone.View.extend({
 		// event for a handler rejecting an agent's mission
 		"click #handler_reject_button": "rejectMission",
 		// redirect to the create page
-		"click #return_create_button": "redirectCreate"
+		"click #return_create_button": "redirectCreate",
+		// redirect to current
+		"click #current_game_button": "redirectCurrent"
 	},
 	create: function(e){
 		// function to create a new game
@@ -266,6 +267,9 @@ UI.Body = Backbone.View.extend({
 	},
 	redirectCreate: function(e){
 		app.navigate("#create", {trigger: true, replace: true});
+	},
+	redirectCurrent: function(e){
+		app.navigate("#current", {trigger: true, replace: true});
 	},
 	template: function(template_name){
 		var source;
