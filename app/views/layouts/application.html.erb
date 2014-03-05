@@ -142,12 +142,15 @@
       <div id="wrapper">
         <h3>Handler:</h3>
         <h4>Accept or reject your Agents mission.</h4>
+        {{each mission}}
+          <p><strong>{{mission.user_name}}</strong></p>
         <div id="button_left">
           <button id="handler_accept_button">Accept Mission</button>
         </div>
         <div id="button_right">
           <button id="handler_reject_button">Reject Mission</button>
         </div>
+        {{/each}}
       </div>
     </script>
 

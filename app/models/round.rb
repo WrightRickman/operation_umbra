@@ -30,6 +30,8 @@ class Round < ActiveRecord::Base
         end
         # put the target back in the @agents array
         @agents << assassin_target
+      else
+        @handlers.unshift(@handlers.pop)
       end
       # give each player his mission
       @agents.each do |agent|
