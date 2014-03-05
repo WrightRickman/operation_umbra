@@ -133,7 +133,9 @@ UI.Body = Backbone.View.extend({
 		// event for a handler accepting an agent's mission
 		"click #handler_accept_button": "acceptMission",
 		// event for a handler rejecting an agent's mission
-		"click #handler_reject_button": "rejectMission"
+		"click #handler_reject_button": "rejectMission",
+		// redirect to the create page
+		"click #return_create_button": "redirectCreate"
 	},
 	create: function(e){
 		// function to create a new game
@@ -245,6 +247,9 @@ UI.Body = Backbone.View.extend({
 		})
 		app.navigate("#start", {trigger: true, replace: true});
 	},
+	redirectCreate: function(e){
+		app.navigate("#create", {trigger: true, replace: true});
+	},
 	template: function(template_name){
 		var source;
 		// use the template that matches the current route
@@ -262,26 +267,41 @@ UI.Body = Backbone.View.extend({
 				source = $('#join-template').html();
 				break;
 			case "current":
-				console.log('current');
-				source = $('#current-template').html();
+				// if the game has started
+				if (app.current_game.started == true) {
+					console.log('current');
+					source = $('#current-template').html();
+				}
+				// the game has not started, but the user is in a game
+				else if ($.inArray(app.current_user, app.current_players) != -1){
+					console.log('current player')
+					source = $('#player-start-template').html();
+				}
+				// user is not in a game
+				else {
+						source = $('#nobody-start-template').html();
+						console.log('current nobody')
+				}
 				break;
 			case "start":
 				console.log('start');
 				// find the template that matches whether the user is the game's creator, one of the game's players, or else someone viewing the page without having joined the game
-				// if the current user is not logged in
-
+				// if the game has started
 				if (app.current_game.started == true) {
 					console.log('this is undefined')
 					source = $('#game-started-template').html();
 				}
+				// if the user is logged in and is the creator of the current game
 				else if (app.current_user == app.current_game.creator_id || undefined) {
 						console.log('admin')
 						source = $('#admin-start-template').html();
 				}
+				// if the user is logged in, a player of the current game, but not the admin
 				else if ($.inArray(app.current_user, app.current_players) != -1) {
 						console.log('player')
 						source = $('#player-start-template').html();
 					}
+				// user is not in a game
 				else {
 						source = $('#nobody-start-template').html();
 						console.log('nobody')
