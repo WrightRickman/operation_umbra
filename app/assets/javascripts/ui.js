@@ -276,8 +276,14 @@ UI.Body = Backbone.View.extend({
 				source = $('#home-template').html();
 				break;
 			case "create":
-				console.log('create');
-				source = $('#create-template').html();
+				if (app.current_game.started != undefined){
+					console.log('in game already');
+					source = $('#in-game-template').html();
+				}
+				else {
+					console.log('create');
+					source = $('#create-template').html();
+				}
 				break;
 			case "join":
 				console.log('join');
