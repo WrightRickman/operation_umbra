@@ -85,11 +85,9 @@ class GamesController < ApplicationController
 				game.users.each do |player|
 					player_ids << player.id
 				end
-
-			if game.game_players.length < 3
-				last_dead = GamePlayers.find(game.last_dead)
-			end	
-
+				if game.game_players.length < 3
+					last_dead = GamePlayers.find(game.last_dead)
+				end	
 				user_game_player = GamePlayer.where(user_id: current_user.id).first
 				handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
 
@@ -190,8 +188,9 @@ class GamesController < ApplicationController
 
 		def reject_mission
 		if current_user.current_game != nil
-			mission = PlayerMission.where(handler_id: current_user.id)
-			mission[0].failure
+			user_game_player = GamePlayer.where(user_id: current_user.id).first
+			handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
+			handler_mission.failure
 		end
 
 		respond_to do |format|
@@ -201,10 +200,6 @@ class GamesController < ApplicationController
 	end
 
 	def final_mission
-		puts "==============="
-		puts final_two
-		puts "==============="
-
 		respond_to do |format|
 			format.html
 			format.json {render json: {}}
