@@ -12,7 +12,7 @@ OperationUmbra::Application.routes.draw do
 
   post '/disband_game' => "games#disband_game"
 
-  post '/start_game' => "games#start_game"
+  post '/start_game' => "games#start"
 
   post '/accept_mission' => "games#accept_mission"
 

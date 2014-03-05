@@ -55,6 +55,7 @@ var App = Backbone.Router.extend({
 				app.current_user = data.current_user
 				app.current_game = data.game
 				app.current_players = data.player_ids
+				app.handler_mission = data.handler_mission
 				func(destination)
 			}
 		})
@@ -126,11 +127,27 @@ UI.Body = Backbone.View.extend({
 		// function to create a new game
 		e.originalEvent.preventDefault();
 
+		var game_name, game_max_difficulty;
+
+		if ($('#agency_name_input').val() == ""){
+			game_name = "Operation Umbra"
+		}
+		else {
+			game_name = $('#agency_name_input').val();
+		}
+
+		if ($('#end_difficulty_input').val() == "") {
+			game_max_difficulty = 2
+		}
+		else {
+			game_max_difficulty = $('#end_difficulty_input').val();
+		}
+
 		var params = {
 			// add the name of the game
-			name: $('#agency_name_input').val(),
+			name: game_name,
 			// add the max difficulty as specified by the player
-			max_difficulty: $('#end_difficulty_input').val()
+			max_difficulty: game_max_difficulty
 		}
 		// ajax call to create the game in the database
 		$.ajax({
@@ -252,8 +269,14 @@ UI.Body = Backbone.View.extend({
 			case "current":
 				// if the game has started
 				if (app.current_game.started == true) {
-					console.log('current');
-					source = $('#current-template').html();
+					if (app.handler_mission.success == null) {
+						console.log('handler');
+						source = $('#handler-template').html();
+					}
+					else {
+						console.log('between handles');
+						source = $('#mission-accepted-template').html();
+					}
 				}
 				// the game has not started, but the user is in a game
 				else if ($.inArray(app.current_user, app.current_players) != -1){

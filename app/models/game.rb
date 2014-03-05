@@ -55,8 +55,9 @@ class Game < ActiveRecord::Base
     if !self.completed
       # update living players
       self.set_living_players
+      difficulty = self.get_current_difficulty
       # create a new round, setting it's game id, max difficulty, and start time
-      new_round = Round.create(:game_id => self.id, :difficulty => self.get_current_difficulty, :round_start => Time.now)
+      new_round = Round.create(:game_id => self.id, :difficulty => difficulty, :round_start => Time.now)
       self.reload
       # call the new round's start method, passing it a list of living players
       new_round.start(@living_players)
