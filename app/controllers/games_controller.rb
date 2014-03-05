@@ -85,18 +85,25 @@ class GamesController < ApplicationController
 				game.users.each do |player|
 					player_ids << player.id
 				end
+
 			if game.game_players.length < 3
 				last_dead = GamePlayers.find(game.last_dead)
 			end	
+
+				user_game_player = GamePlayer.where(user_id: current_user.id).first
+				handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
+
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
 				#make some empty elements to send back to the app
+				handler_mission = []
 				game = {}
 				player_ids = []
 				last_dead = {}
 			end
 			#create an info object with the game, the game's players, and the current user's id
-			info = {game: game, player_ids: player_ids, current_user: current_user.id, last_dead: last_dead}
+			info = {game: game, player_ids: player_ids, current_user: current_user.id, handler_mission: handler_mission, last_dead: last_dead}
+
 		#if the user is not logged in, create an empty object to send back to the app
 		else
 			info = {}
@@ -156,9 +163,9 @@ class GamesController < ApplicationController
 		end
 	end
 
-	def start_game
+	def start
 		if current_user.current_game != nil
-			game = Game.find(current_user.games.first.id)
+			game = Game.find(current_user.current_game)
 			game.start_game
 		end
 
@@ -170,8 +177,9 @@ class GamesController < ApplicationController
 
 	def accept_mission
 		if current_user.current_game != nil
-			mission = PlayerMission.where(handler_id: current_user.id)
-			mission[0].debrief
+			user_game_player = GamePlayer.where(user_id: current_user.id).first
+			handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
+			handler_mission.debrief
 		end
 
 		respond_to do |format|
