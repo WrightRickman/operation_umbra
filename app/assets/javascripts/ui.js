@@ -13,7 +13,8 @@ var App = Backbone.Router.extend({
 		"finalMission": "finalMission"
 	},
 	home: function(){
-		app.gameStatus("current", app.generateUI);
+		app.gameStatus();
+		app.current_page = "home"
 	},
 	create: function(){
 		app.gameStatus("create", app.generateUI);
