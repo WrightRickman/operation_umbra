@@ -11,27 +11,44 @@ class Game < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def self.open
+
+###############  QUERYING METHODS #############
+
+  # get all games that haven't started
+  def self.open_games
     where(started: false)
   end
 
-  def self.active
-    where(completed: false)
+  def current_round
+    self.rounds.last
   end
+
+  # get the number of current rounds, add 1 to accomodate math in difficulty check
+  def total_rounds
+    self.rounds.length + 1
+  end
+
+############################################
+
+###############  LOBBY METHODS #############
 
   # create a hash of for each open game that contains the users signed up for that game
   def self.open_games_and_players
     players = {}
-    self.open.each do |game|
+    self.open_games.each do |game|
       players["#{game.id}"] = []
       game.users.each do |user|
         players["#{game.id}"] << user.id
       end
     end
-    lobby = {lobby: self.open}
+    lobby = {lobby: self.open_games}
     lobby_info = [lobby, players]
   end
 
+  # create a hash with the game's current stats:
+  # which players are playing
+  # which game is it
+  # who the most recent dead is
   def game_stats
     player_ids = []
     self.game_players.each do |player|
@@ -45,6 +62,7 @@ class Game < ActiveRecord::Base
     return {game: self, player_ids: player_ids, last_dead: last_dead}
   end
 
+  # destroy the game after unassigning all players
   def disband_game
     self.game_players.each do |player|
       player.user.leave_game
@@ -64,11 +82,15 @@ class Game < ActiveRecord::Base
     end
   end
 
+############################################
+
+###############  GAME FUNCTION METHODS #############
+
   # get difficulty, returning the max difficulty if it has been reached
   def get_current_difficulty
     self.reload
-    if self.length + 1 < self.max_difficulty
-      return self.length + 1
+    if self.total_rounds < self.max_difficulty
+      return self.total_rounds
     else
       return self.max_difficulty
     end
@@ -80,7 +102,7 @@ class Game < ActiveRecord::Base
       difficulty = self.get_current_difficulty
       new_round = Round.create(:game_id => self.id, :difficulty => difficulty, :round_start => Time.now)
       self.reload
-      new_round.start(self.living_players)
+      new_round.start
     end
   end
 
@@ -88,6 +110,7 @@ class Game < ActiveRecord::Base
   # called when a round's check_mission_status shows complete with 2 agents in the round
   def end_game(winner)
     self.completed = true
+    self.save!
     puts "#{winner.user.user_name} won the game!"
   end
 

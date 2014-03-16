@@ -40,6 +40,12 @@ gem 'twilio-ruby'
 
 gem 'foundation-rails'
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'factory_girl_rails', "~> 4.0"
+  gem 'cucumber'
+end
+
 group :development do
   gem 'pry'
   gem 'pry-rails'

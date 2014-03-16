@@ -4,19 +4,19 @@ OperationUmbra::Application.routes.draw do
 
   get "/lobby" => "games#lobby"
 
-  post "/join" => "games#join_game"
+  post "/join" => "users#join_game"
 
   get '/current_game' => "games#current_game"
 
-  post '/leave_game' => "games#leave_game"
+  post '/leave_game' => "users#leave_game"
 
   post '/disband_game' => "games#disband_game"
 
   post '/start_game' => "games#start"
 
-  post '/accept_mission' => "games#accept_mission"
+  post '/accept_mission' => "game_players#accept_mission"
 
-  post '/reject_mission' => "games#reject_mission"
+  post '/reject_mission' => "game_players#reject_mission"
 
   get '/final_mission' => "games#final_mission"
 

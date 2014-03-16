@@ -4,40 +4,42 @@ class Round < ActiveRecord::Base
 	has_many :player_missions
   has_many :users, through: :player_missions
 
+  delegate :living_players, :to => :game
+
   include GlobalScopingMethods
 
-  def start(players)
-    @players = players.shuffle
-    @agents = []
-    @handlers = []
-    @players.each do |player|
-      @agents << player
-      @handlers << player
+  def start
+    players = self.living_players
+    agents = []
+    handlers = []
+    players.each do |player|
+      agents << player
+      handlers << player
     end
     missions = Mission.where(level: self.difficulty)
     # if there are more than two players, proceed as usual
-    if @agents.length > 2
+    if agents.length > 2
       # check to see if assassinations are enabled
       if self.game.mission_count >= self.game.assassin_threshold
         # get a player for each role
-        assassin = @agents.pop
-        assassin_handler = @handlers.shift
-        assassin_target = @agents.pop
+        assassin = agents.pop
+        assassin_handler = handlers.shift
+        assassin_target = agents.pop
         if assassin != assassin_handler
-         @assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :game_player_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)          
+         assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :game_player_id => assassin.id, :round_id => self.id, :handler_id => assassin_handler.id, :target_id => assassin_target.id)          
         else
-          new_handler = @handlers.shift
-          @handlers.unshift(assassin_handler)
-          @assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :game_player_id => assassin.id, :round_id => self.id, :handler_id => new_handler.id, :target_id => assassin_target.id)          
+          new_handler = handlers.shift
+          handlers.unshift(assassin_handler)
+          assassination = PlayerMission.create(:mission_id => Mission.where(assassination: true).first.id, :game_id => self.game_id, :game_player_id => assassin.id, :round_id => self.id, :handler_id => new_handler.id, :target_id => assassin_target.id)          
         end
-        # put the target back in the @agents array
-        @agents << assassin_target
+        # put the target back in the agents array
+        agents << assassin_target
       else
-        @handlers.unshift(@handlers.pop)
+        handlers.unshift(handlers.pop)
       end
       # give each player his mission
-      @agents.each do |agent|
-        handler = @handlers.shift
+      agents.each do |agent|
+        handler = handlers.shift
         mission = PlayerMission.create(:mission_id => missions.sample.id, :game_id => self.game_id, :game_player_id => agent.id, :round_id => self.id, :handler_id => handler.id)
       end
       self.reload
@@ -47,7 +49,7 @@ class Round < ActiveRecord::Base
       mission = missions.sample
       # get the handler from the last assassinated player
       handler = GamePlayer.find(self.game.last_dead)
-      @agents.each do |agent|
+      agents.each do |agent|
         PlayerMission.create(:mission_id => mission.id, :game_id => self.game_id, :game_player_id => agent.id, :handler_id => handler.id, :round_id => self.id)
       end
     end
@@ -101,7 +103,7 @@ class Round < ActiveRecord::Base
 
   # testing method for ending round with all missions accepted
   def force_end
-    self.player_missions.each do |mission|
+    self.player_missions.where(success: nil).each do |mission|
       mission.debrief
     end
   end

@@ -18,14 +18,15 @@ class PlayerMission < ActiveRecord::Base
 
   # method for sending the player their mission... still coming
   def brief(description, phone_number, handler)
-    account_sid = 'ACe3077fe23fe1139751ed954c6a9ca95a'
-    auth_token = '03fda3cb1fb25da94e121f1747972a02'
-    @client = Twilio::REST::Client.new account_sid, auth_token
+    # account_sid = 'ACe3077fe23fe1139751ed954c6a9ca95a'
+    # auth_token = '03fda3cb1fb25da94e121f1747972a02'
+    # @client = Twilio::REST::Client.new account_sid, auth_token
 
-    message = @client.account.sms.messages.create(:body => "<~Attn Agent~> \n Your Mission: #{description} \n #{handler} is overseeing your mission. Complete your mission and bring them proof." ,
-    :to => "+1#{phone_number}",    
-    :from => "+19177465955")  
-    puts message.sid
+    # message = @client.account.sms.messages.create(:body => "<~Attn Agent~> \n Your Mission: #{description} \n #{handler} is overseeing your mission. Complete your mission and bring them proof." ,
+    # :to => "+1#{phone_number}",    
+    # :from => "+19177465955")  
+    # puts message.sid
+    puts "Sent '#{description}' to #{handler}"
   end
 
   # method called when a handler accepts a mission

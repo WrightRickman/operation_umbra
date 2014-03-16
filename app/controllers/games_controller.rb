@@ -33,18 +33,6 @@ class GamesController < ApplicationController
 		end
 	end
 
-	def join_game
-		# create a new game player for current use and adjust user appropriately
-		if current_user
-			current_user.join_game(Game.find(params[:game_id]))
-		end
-
-		respond_to do |format|
-			format.html
-			format.json {render json: "okay"}
-		end
-	end
-
 	def current_game
 		#if user is signed in
 		if current_user
@@ -69,18 +57,6 @@ class GamesController < ApplicationController
 			end
 	end
 
-	def leave_game
-		# if user is in a game, call it's leave game method
-		if current_user.current_game != nil
-			self.leave_game
-		end
-
-		respond_to do |format|
-			format.html
-			format.json {render json: {}}
-		end 
-	end
-
 	def disband_game
 		# if the current user is in a game, disband it
 		if current_user.current_game != nil
@@ -96,28 +72,6 @@ class GamesController < ApplicationController
 	def start
 		if current_user.current_game != nil
 			current_user.current_game.start
-		end
-
-		respond_to do |format|
-			format.html
-			format.json {render json: {}}
-		end
-	end
-
-	def accept_mission
-		if current_user.current_game != nil
-			current_user.current_player.accept_mission
-		end
-
-		respond_to do |format|
-			format.html
-			format.json {render json: {}}
-		end
-	end
-
-		def reject_mission
-		if current_user.current_game != nil
-			current_user.current_player.reject_mission
 		end
 
 		respond_to do |format|
