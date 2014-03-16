@@ -5,20 +5,12 @@ class GamesController < ApplicationController
 	end
 
 	def create
-		#if the user is logged in...
+		#only create a game if a user is signed in
 		if current_user
-			#save params to variables
-			name = params["name"]
-			max_difficulty = params["max_difficulty"]
-			#create the game
-			game = Game.create(name: name, max_difficulty: max_difficulty, creator_id: current_user.id)
-			game_player = GamePlayer.create(user_id: current_user.id, game_id: game.id)
-			current_user.current_game = game.id
-			current_user.save!
+			new_game = Game.create(name: params["name"], max_difficulty: max_difficulty, creator_id: current_user.id)
+			current_user.assign_current_game(new_game)
 			#create a hash to return to the app, with the created game and the creator's id
-			info = {game: game, user: current_user.id}
-
-			game_player.reload
+			info = {game: new_game, user: current_user.id}
 		end
 
 		respond_to do |format|
@@ -33,23 +25,8 @@ class GamesController < ApplicationController
 			#if the current user is in a game, return an empty object
 			lobby_info = {}
 		else
-			#get all open games
-			open_games = Game.where(started: false)
-			#create a players hash
-			players = {}
-			#create an object in the hash for each game, add the game's players to that object
-			open_games.each do |game|
-				players["#{game.id}"] = []
-				game.users.each do |user|
-					players["#{game.id}"] << user.id
-				end
-			end
+			lobby_info = Game.open_games_and_players
 		end
-
-		#pack up all that information in a hash ready for handlebars
-		# lobby = {lobby: {open_games: open_games, creators: creators}}
-		lobby = {lobby: open_games}
-		lobby_info = [lobby, players]
 		respond_to do |format|
 			format.json {render json: lobby_info}
 		end

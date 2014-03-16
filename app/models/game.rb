@@ -6,43 +6,64 @@ class Game < ActiveRecord::Base
   has_many :users, through: :game_players
   has_many :missions, through: :player_missions
 
+  scope :open, where(started: false)
+
+  delegate :alive, :to => :game_players
+  delegate :length, :to => :rounds
+
   @living_players = []
 
-  #return all living players
-  def set_living_players
-    # reset living_players
-    @living_players = []
-    # check if each player is alive, and if so, add to living array
-    self.game_players.each do |player|
-      if player.alive
-        @living_players << player
+  # create a hash of for each open game that contains the users signed up for that game
+  def self.open_games_and_players
+    players = {}
+    self.open.each do |game|
+      players["#{game.id}"] = []
+      game.users.each do |user|
+        players["#{game.id}"] << user.id
+      end
+    end
+    lobby = {lobby: self.open}
+    lobby_info = [lobby, players]
+  end
+
+  # start game. Only starts with 3+ players
+  def start_game
+    if self.game_players.length >= 3
+      if !self.started
+        self.started = true
+        self.save
+        start_round
       end
     end
   end
 
+  # get difficulty, returning the max difficulty if it has been reached
   def get_current_difficulty
     self.reload
-    # check to see if max difficulty has been reached yet
-    if self.rounds.length + 1 < self.max_difficulty
-      # if max difficulty has not been reached, return the round number
-      return self.rounds.length + 1
+    if self.length + 1 < self.max_difficulty
+      return self.length + 1
     else
-      # else return the max_difficulty
       return self.max_difficulty
     end
   end
 
-  # method for starting game
-  def start_game
-    if self.game_players.length >= 3
-      if !self.started
-        # set game to having been started
-        self.started = true
-        self.save
-        # start a round
-        start_round
-        self.reload
-      end
+  #return all living players
+  def set_living_players
+    @living_players = []
+    self.alive.each do |player|
+      @living_players << player
+    end
+  end
+
+
+  # start round after setting all the current players
+  def start_round
+    if !self.completed
+      self.set_living_players
+      difficulty = self.get_current_difficulty
+      new_round = Round.create(:game_id => self.id, :difficulty => difficulty, :round_start => Time.now)
+      self.reload
+      new_round.start(@living_players)
     end
   end
 
@@ -51,19 +72,6 @@ class Game < ActiveRecord::Base
   def end_game(winner)
     self.completed = true
     puts "#{winner.user.user_name} won the game!"
-  end
-
-  def start_round
-    if !self.completed
-      # update living players
-      self.set_living_players
-      difficulty = self.get_current_difficulty
-      # create a new round, setting it's game id, max difficulty, and start time
-      new_round = Round.create(:game_id => self.id, :difficulty => difficulty, :round_start => Time.now)
-      self.reload
-      # call the new round's start method, passing it a list of living players
-      new_round.start(@living_players)
-    end
   end
 
 end

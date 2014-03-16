@@ -7,4 +7,10 @@ class User < ActiveRecord::Base
 	has_many :game_players
 	has_many :player_missions, through: :game_players
   has_many :games, through: :game_players
+
+  def assign_current_game(game)
+    self.current_game = game.id
+    self.save!
+  end
+
 end
