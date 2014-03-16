@@ -5,6 +5,12 @@ class PlayerMission < ActiveRecord::Base
 	belongs_to :mission
   has_many :users, through: :game_player
 
+  include GlobalScopingMethods
+
+  def find_by_handler(game_player)
+    where(handler_id: game_player.id)
+  end
+
   # returns the handler of the mission
   def handler
     GamePlayer.find(self.handler_id)

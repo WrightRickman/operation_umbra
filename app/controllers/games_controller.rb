@@ -27,20 +27,16 @@ class GamesController < ApplicationController
 		else
 			lobby_info = Game.open_games_and_players
 		end
+
 		respond_to do |format|
 			format.json {render json: lobby_info}
 		end
 	end
 
 	def join_game
-		#check to see if the user is logged in
+		# create a new game player for current use and adjust user appropriately
 		if current_user
-			#set new_player equal to the id of the current user
-			new_player = current_user.id
-			#create a new game_player with the current user's id and the game id from params
-			game_player = GamePlayer.create(game_id: params[:game_id], user_id: new_player)
-			#set the current user to be involved in a game so that they cannot join more
-			User.update(new_player, :current_game => params[:game_id])
+			current_user.join_game(Game.find(params[:game_id]))
 		end
 
 		respond_to do |format|
@@ -53,32 +49,19 @@ class GamesController < ApplicationController
 		#check to see if the user is logged in
 		if current_user
 			#check to see if the user is involved in any games
-			if !current_user.games.empty?
-				#find the current user's current game
-				# ICEBOX this is a messy way of handling the user information. If time allows, should improve both models and relations to allow for cleaner code.
-				game = Game.find(current_user.games.first.id)
-				player_ids = []
-				#add the ide of each player in the game to the player_id's array
-				game.users.each do |player|
-					player_ids << player.id
-				end
-				if game.game_players.length == 2 && game.started == true
-					last_dead = GamePlayer.find(game.last_dead)
-				end	
-				user_game_player = GamePlayer.where(user_id: current_user.id).first
-				handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
+			if !current_user.current_game
+				game = Game.find(current_user.current_game)
+				users_game_player = GamePlayer.find_by_user(current_user).find_by_game(game).first
+				handler_mission = PlayerMission.find_by_handler(users_game_player).first
+				info = game.game_stats
+				info[:current_user] = current_user.id
+				info[:handler_mission] = handler_mission
 
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
 				#make some empty elements to send back to the app
-				handler_mission = []
-				game = {}
-				player_ids = []
-				last_dead = {}
+				info = {game: {}, player_ids: [], current_user: current_user.id, handler_mission: [], last_dead: []}
 			end
-			#create an info object with the game, the game's players, and the current user's id
-			info = {game: game, player_ids: player_ids, current_user: current_user.id, handler_mission: handler_mission, last_dead: last_dead}
-
 		#if the user is not logged in, create an empty object to send back to the app
 		else
 			info = {}

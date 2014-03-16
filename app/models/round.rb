@@ -4,6 +4,8 @@ class Round < ActiveRecord::Base
 	has_many :player_missions
   has_many :users, through: :player_missions
 
+  include GlobalScopingMethods
+
   def start(players)
     @players = players.shuffle
     @agents = []

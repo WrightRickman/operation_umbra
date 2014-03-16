@@ -6,12 +6,14 @@ class Game < ActiveRecord::Base
   has_many :users, through: :game_players
   has_many :missions, through: :player_missions
 
-  scope :open, where(started: false)
-
-  delegate :alive, :to => :game_players
+  delegate :living_players, :to => :game_players
   delegate :length, :to => :rounds
 
-  @living_players = []
+  include GlobalScopingMethods
+
+  def self.open
+    where(started: false)
+  end
 
   # create a hash of for each open game that contains the users signed up for that game
   def self.open_games_and_players
@@ -24,6 +26,19 @@ class Game < ActiveRecord::Base
     end
     lobby = {lobby: self.open}
     lobby_info = [lobby, players]
+  end
+
+  def game_stats
+    player_ids = []
+    self.game_players.each do |player|
+      player_ids << player.id
+    end
+    if self.living_players.length == 2 && self.started
+      last_dead = GamePlayer.find(self.last_dead)
+    else
+      last_dead = nil
+    end
+    return {game: self, player_ids: player_ids, last_dead: last_dead}
   end
 
   # start game. Only starts with 3+ players
@@ -47,23 +62,13 @@ class Game < ActiveRecord::Base
     end
   end
 
-  #return all living players
-  def set_living_players
-    @living_players = []
-    self.alive.each do |player|
-      @living_players << player
-    end
-  end
-
-
   # start round after setting all the current players
   def start_round
     if !self.completed
-      self.set_living_players
       difficulty = self.get_current_difficulty
       new_round = Round.create(:game_id => self.id, :difficulty => difficulty, :round_start => Time.now)
       self.reload
-      new_round.start(@living_players)
+      new_round.start(self.living_players)
     end
   end
 
