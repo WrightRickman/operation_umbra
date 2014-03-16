@@ -45,6 +45,14 @@ class Game < ActiveRecord::Base
     return {game: self, player_ids: player_ids, last_dead: last_dead}
   end
 
+  def disband_game
+    self.game_players.each do |player|
+      player.user.leave_game
+      player.user.save!
+    end
+    self.destroy
+  end
+
   # start game. Only starts with 3+ players
   def start_game
     if self.game_players.length >= 3

@@ -9,8 +9,20 @@ class GamePlayer < ActiveRecord::Base
     where(alive: true)
   end
 
-  def self.active
-    
+  def current_mission
+    self.player_missions.last
+  end
+
+  def handler_mission
+    PlayerMission.where(handler_id)
+  end
+
+  def accept_mission
+    self.handler_mission.debrief
+  end
+
+  def reject_mission
+    self.handler_mission.failure
   end
 
   def create_game_admin(game)

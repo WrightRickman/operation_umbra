@@ -18,14 +18,21 @@ class User < ActiveRecord::Base
   def join_game(game)
     game_player = GamePlayer.create(game_id: game.id, user_id: self.id)
     self.current_game_id = game.id
+    self.save!
   end
 
   def current_game
     Game.find(self.current_game_id)
   end
 
+  def current_player
+    GamePlayer.where(user_id: self.id, game_id: self.current_game_id).take
+  end
+
   def leave_game
-    self.game_players.open
+    self.current_player.destroy
+    self.current_game_id = nil
+    self.save!
   end
 
 end

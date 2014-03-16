@@ -52,10 +52,9 @@ class GamesController < ApplicationController
 			if !current_user.current_game
 				game = Game.find(current_user.current_game)
 				users_game_player = GamePlayer.find_by_user(current_user).find_by_game(game).first
-				handler_mission = PlayerMission.find_by_handler(users_game_player).first
 				info = game.game_stats
 				info[:current_user] = current_user.id
-				info[:handler_mission] = handler_mission
+				info[:handler_mission] = PlayerMission.find_by_handler(users_game_player).last
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
 				info = {game: {}, player_ids: [], current_user: current_user.id, handler_mission: [], last_dead: []}
@@ -71,16 +70,9 @@ class GamesController < ApplicationController
 	end
 
 	def leave_game
-		# if user is in a game
+		# if user is in a game, call it's leave game method
 		if current_user.current_game != nil
-			user = User.find(current_user.id)
-			game_id = user.current_game
-			# remove the assosiation between the current user and the game
-			game_player = GamePlayer.where({user_id: current_user.id, game_id: game_id})
-			GamePlayer.destroy(game_player)
-			# set the user to not be in a game
-			user.current_game = nil
-			user.save!
+			self.leave_game
 		end
 
 		respond_to do |format|
@@ -90,26 +82,9 @@ class GamesController < ApplicationController
 	end
 
 	def disband_game
+		# if the current user is in a game, disband it
 		if current_user.current_game != nil
-			# find the current game
-			game_id = current_user.current_game
-			# find all users in that game 
-			game_players = GamePlayer.where(game_id: game_id)
-			# remove all of the users from the game
-			game_players.each do |player|
-				user = User.find(player.user_id)
-				user.current_game = nil
-				user.save!
-			end
-			# remove that game and the game_player association
-			game_to_remove = Game.where(creator_id: current_user.id).first
-			game_players_to_remove = GamePlayer.where(game_id: game_to_remove.id)
-
-			game_players_to_remove.each do |game_player|
-				GamePlayer.destroy(game_player)
-			end
-
-			Game.destroy(game_to_remove)
+			current_user.current_game.disband_game
 		end
 
 		respond_to do |format|
@@ -120,8 +95,7 @@ class GamesController < ApplicationController
 
 	def start
 		if current_user.current_game != nil
-			game = Game.find(current_user.current_game)
-			game.start_game
+			current_user.current_game.start
 		end
 
 		respond_to do |format|
@@ -132,9 +106,7 @@ class GamesController < ApplicationController
 
 	def accept_mission
 		if current_user.current_game != nil
-			user_game_player = GamePlayer.where(user_id: current_user.id).first
-			handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
-			handler_mission.debrief
+			current_user.current_player.accept_mission
 		end
 
 		respond_to do |format|
@@ -145,9 +117,7 @@ class GamesController < ApplicationController
 
 		def reject_mission
 		if current_user.current_game != nil
-			user_game_player = GamePlayer.where(user_id: current_user.id).first
-			handler_mission = PlayerMission.where(handler_id: user_game_player.id).first
-			handler_mission.failure
+			current_user.current_player.reject_mission
 		end
 
 		respond_to do |format|
