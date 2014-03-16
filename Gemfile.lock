@@ -44,6 +44,7 @@ GEM
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.1.1)
     daemons (1.1.9)
+    database_cleaner (1.2.0)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
@@ -177,6 +178,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   cucumber
   daemons
+  database_cleaner
   delayed_job_active_record
   devise
   factory_girl_rails (~> 4.0)
