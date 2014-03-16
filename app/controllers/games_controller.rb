@@ -46,9 +46,9 @@ class GamesController < ApplicationController
 	end
 
 	def current_game
-		#check to see if the user is logged in
+		#if user is signed in
 		if current_user
-			#check to see if the user is involved in any games
+			# if the user is in a game, get the game stats and save it to the info hash
 			if !current_user.current_game
 				game = Game.find(current_user.current_game)
 				users_game_player = GamePlayer.find_by_user(current_user).find_by_game(game).first
@@ -56,13 +56,10 @@ class GamesController < ApplicationController
 				info = game.game_stats
 				info[:current_user] = current_user.id
 				info[:handler_mission] = handler_mission
-
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
-				#make some empty elements to send back to the app
 				info = {game: {}, player_ids: [], current_user: current_user.id, handler_mission: [], last_dead: []}
 			end
-		#if the user is not logged in, create an empty object to send back to the app
 		else
 			info = {}
 		end

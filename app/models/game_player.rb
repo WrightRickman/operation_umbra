@@ -5,12 +5,12 @@ class GamePlayer < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def self.active
-    GamePlayer
-  end
-
   def self.living_players
     where(alive: true)
+  end
+
+  def self.active
+    
   end
 
   def create_game_admin(game)

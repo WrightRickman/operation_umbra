@@ -17,11 +17,11 @@ class User < ActiveRecord::Base
 
   def join_game(game)
     game_player = GamePlayer.create(game_id: game.id, user_id: self.id)
-    self.current_game = game.id
+    self.current_game_id = game.id
   end
 
-  def current_game_player
-    self.game_players
+  def current_game
+    Game.find(self.current_game_id)
   end
 
   def leave_game

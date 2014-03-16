@@ -7,6 +7,11 @@ PlayerMission.destroy_all
 
 yaniv = User.create(:user_name => "Yaniv", :email => "yaniv@email.com", :password => "password123", :phone_number => "9736193328")
 wright = User.create(:user_name => "Wright", :email => "wright@email.com", :password => "password456", :phone_number => "5166552432")
+isaac = User.create(:user_name => "Isaac", :email => "isaac@email.com", :password => "password123", :phone_number => "9736193328")
+new_game = Game.create(:creator_id => yaniv.id)
+yaniv.join_game(new_game)
+wright.join_game(new_game)
+isaac.join_game(new_game)
 
 #======== Missions ==========
 

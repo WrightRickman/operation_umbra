@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20140302200003) do
     t.integer  "current_mission"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "current_game"
+    t.integer  "current_game_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

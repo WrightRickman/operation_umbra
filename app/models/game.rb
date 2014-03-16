@@ -15,6 +15,10 @@ class Game < ActiveRecord::Base
     where(started: false)
   end
 
+  def self.active
+    where(completed: false)
+  end
+
   # create a hash of for each open game that contains the users signed up for that game
   def self.open_games_and_players
     players = {}
