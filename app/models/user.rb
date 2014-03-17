@@ -10,11 +10,6 @@ class User < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def assign_current_game(game)
-    self.current_game = game.id
-    self.save!
-  end
-
   def join_game(game)
     game_player = GamePlayer.create(game_id: game.id, user_id: self.id)
     self.current_game_id = game.id
@@ -22,7 +17,11 @@ class User < ActiveRecord::Base
   end
 
   def current_game
-    Game.find(self.current_game_id)
+    if self.current_game_id != nil
+      Game.find(self.current_game_id)
+    else
+      nil
+    end
   end
 
   def current_player

@@ -6,7 +6,6 @@ class Game < ActiveRecord::Base
   has_many :users, through: :game_players
   has_many :missions, through: :player_missions
 
-  delegate :living_players, :to => :game_players
   delegate :length, :to => :rounds
 
   include GlobalScopingMethods
@@ -26,6 +25,14 @@ class Game < ActiveRecord::Base
   # get the number of current rounds, add 1 to accomodate math in difficulty check
   def total_rounds
     self.rounds.length + 1
+  end
+
+  def living_players
+    GamePlayer.living_players(self)
+  end
+
+  def last_dead
+    GamePlayer.last_dead(self)
   end
 
 ############################################
@@ -55,7 +62,7 @@ class Game < ActiveRecord::Base
       player_ids << player.id
     end
     if self.living_players.length == 2 && self.started
-      last_dead = GamePlayer.find(self.last_dead)
+      last_dead = self.last_dead
     else
       last_dead = nil
     end

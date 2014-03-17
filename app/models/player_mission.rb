@@ -53,12 +53,11 @@ class PlayerMission < ActiveRecord::Base
       target.alive = false
       target.save!
       game = self.round.game
-      game.last_dead = target.id
       game.save!
       game.reload
     end
     # check to see if the round was a deathmatch
-    if self.round.users.length == 2
+    if self.round.player_missions.length == 2
       # if the round was a deathmatch, the player won!
       self.round.game.end_game(self.game_player)
     # otherwise, proceed as usual

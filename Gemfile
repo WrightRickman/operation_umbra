@@ -45,9 +45,6 @@ group :development, :test do
   gem 'factory_girl_rails', "~> 4.0"
   gem 'cucumber'
   gem 'database_cleaner'
-end
-
-group :development do
   gem 'pry'
   gem 'pry-rails'
 end

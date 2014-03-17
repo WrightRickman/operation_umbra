@@ -5,8 +5,16 @@ class GamePlayer < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def self.living_players
+  def self.living_players(game)
     where(alive: true)
+  end
+
+  def self.dead_players
+    where(alive: false)
+  end
+
+  def self.last_dead(game)
+    self.dead_players.where(game_id: game.id).order("updated_at DESC").last
   end
 
   def current_mission
@@ -14,7 +22,7 @@ class GamePlayer < ActiveRecord::Base
   end
 
   def handler_mission
-    PlayerMission.where(handler_id)
+    PlayerMission.where(handler_id: self.id).last
   end
 
   def accept_mission
