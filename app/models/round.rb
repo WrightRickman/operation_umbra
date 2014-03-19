@@ -97,11 +97,7 @@ class Round < ActiveRecord::Base
     self.round_end = Time.now
     self.save!
     # tell the game to start a new round
-    puts "Smile, give the audience a bow, and bask in the applause. The round is complete, you have come full circle. Rejoice."
-    puts "==============="
-    puts Game.all.length
     self.game.start_round
-
   end
 
   # testing method for ending round with all missions accepted

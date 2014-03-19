@@ -40,8 +40,8 @@ class Game < ActiveRecord::Base
 ###############  CREATE/LOBBY METHODS #############
 
   # creates a new game
-  def self.new_game(name, max_difficulty, creator)
-    new_game = Game.create(:name => name, :max_difficulty => max_difficulty, :creator_id => creator.id)
+  def self.new_game(name, max_difficulty, creator, assassin_threshold = 8)
+    new_game = Game.create(:name => name, :max_difficulty => max_difficulty, :creator_id => creator.id, :assassin_threshold => assassin_threshold)
     creator.join_game(new_game)
     return new_game
   end
@@ -125,6 +125,13 @@ class Game < ActiveRecord::Base
   def end_game(winner)
     self.completed = true
     self.save!
+    self.living_players.each do |player|
+      if player != winner
+        player.assassinated
+      else
+        player.user.remove_current_game
+      end
+    end
     puts "#{winner.user.user_name} won the game!"
   end
 

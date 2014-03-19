@@ -5,6 +5,8 @@ class GamePlayer < ActiveRecord::Base
 
   include GlobalScopingMethods
 
+  ############ QUERYING METHODS #############
+
   def self.living_players(game)
     where(alive: true)
   end
@@ -24,6 +26,9 @@ class GamePlayer < ActiveRecord::Base
   def handler_mission
     PlayerMission.where(handler_id: self.id).last
   end
+  ###########################################
+
+  ########### MISSION HANDLING METHODS #########
 
   def accept_mission
     self.handler_mission.debrief
@@ -33,8 +38,16 @@ class GamePlayer < ActiveRecord::Base
     self.handler_mission.failure
   end
 
-  def create_game_admin(game)
-    GamePlayer.create(user_id: current_user.id, game_id: game.id)
+  #################################################
+
+  ########### CREATION AND DEATH METHODS ###########
+
+  def assassinated
+    self.alive = false
+    self.save!
+    self.user.remove_current_game
   end
+
+  ##################################################
 
 end

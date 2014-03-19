@@ -16,6 +16,10 @@ class PlayerMission < ActiveRecord::Base
     GamePlayer.find(self.handler_id)
   end
 
+  def target
+    GamePlayer.find(self.target_id)
+  end
+
   # method for sending the player their mission... still coming
   def brief(description, phone_number, handler)
     # account_sid = 'ACe3077fe23fe1139751ed954c6a9ca95a'
@@ -48,9 +52,7 @@ class PlayerMission < ActiveRecord::Base
     game.save!
     # if the mission was an assassination, set the player to dead
     if !self.target_id.nil?
-      target = GamePlayer.find(self.target_id)
-      target.alive = false
-      target.save!
+      self.target.assassinated
       game = self.round.game
       game.save!
       game.reload

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     #only create a game if a user is signed in
     if current_user
       #create a hash that includes a new game and the current user
-      info = {game: current_user.new_game(params["name"], params["max_difficulty"]), user: current_user.id}
+      info = {game: current_user.new_game(params["name"], params["max_difficulty"]), user: current_user.id, params["assassin_threshold"]}
     end
 
     respond_to do |format|

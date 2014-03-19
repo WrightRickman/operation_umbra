@@ -20,7 +20,7 @@ describe "Given an open game and a user," do
         @yaniv.leave_game
       end
       it "the user should have no current game" do
-        expect(@yaniv.current_game).to eq(nil)
+        expect(@yaniv.current_game).to eq(false)
       end
     end
 

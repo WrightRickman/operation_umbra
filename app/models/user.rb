@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def new_game(name, max_difficulty)
-    return Game.new_game(name, max_difficulty, self)
+  def new_game(name, max_difficulty, assassin_threshold)
+    return Game.new_game(name, max_difficulty, self, assassin_threshold)
   end
 
   def join_game(game)
@@ -38,6 +38,11 @@ class User < ActiveRecord::Base
 
   def leave_game
     self.current_player.destroy
+    self.current_game_id = nil
+    self.save!
+  end
+
+  def remove_current_game
     self.current_game_id = nil
     self.save!
   end
