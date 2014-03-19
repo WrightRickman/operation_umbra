@@ -4,21 +4,6 @@ class GamesController < ApplicationController
 
 	end
 
-	def create
-		#only create a game if a user is signed in
-		if current_user
-			new_game = Game.create(name: params["name"], max_difficulty: max_difficulty, creator_id: current_user.id)
-			current_user.assign_current_game(new_game)
-			#create a hash to return to the app, with the created game and the creator's id
-			info = {game: new_game, user: current_user.id}
-		end
-
-		respond_to do |format|
-			format.html
-			format.json {	render json: info }
-		end
-	end
-
 	def lobby
 		#check to see if the current user is in a game
 		if current_user.current_game
@@ -37,7 +22,7 @@ class GamesController < ApplicationController
 		#if user is signed in
 		if current_user
 			# if the user is in a game, get the game stats and save it to the info hash
-			if !current_user.current_game
+			if !current_user.current_game_id.nil?
 				game = Game.find(current_user.current_game)
 				users_game_player = GamePlayer.find_by_user(current_user).find_by_game(game).first
 				info = game.game_stats

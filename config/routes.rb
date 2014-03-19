@@ -4,6 +4,8 @@ OperationUmbra::Application.routes.draw do
 
   get "/lobby" => "games#lobby"
 
+  post "/create_game" => "users#create"
+
   post "/join" => "users#join_game"
 
   get '/current_game' => "games#current_game"

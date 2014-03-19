@@ -26,7 +26,6 @@ class PlayerMission < ActiveRecord::Base
     # :to => "+1#{phone_number}",    
     # :from => "+19177465955")  
     # puts message.sid
-    puts "Sent '#{description}' to #{handler}"
   end
 
   # method called when a handler accepts a mission

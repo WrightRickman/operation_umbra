@@ -1,5 +1,18 @@
 class UsersController < ApplicationController
 
+  def create
+    #only create a game if a user is signed in
+    if current_user
+      #create a hash that includes a new game and the current user
+      info = {game: current_user.new_game(params["name"], params["max_difficulty"]), user: current_user.id}
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: info }
+    end
+  end
+
   def join_game
     # create a new game player for current use and adjust user appropriately
     if current_user

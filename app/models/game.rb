@@ -37,7 +37,14 @@ class Game < ActiveRecord::Base
 
 ############################################
 
-###############  LOBBY METHODS #############
+###############  CREATE/LOBBY METHODS #############
+
+  # creates a new game
+  def self.new_game(name, max_difficulty, creator)
+    new_game = Game.create(:name => name, :max_difficulty => max_difficulty, :creator_id => creator.id)
+    creator.join_game(new_game)
+    return new_game
+  end
 
   # create a hash of for each open game that contains the users signed up for that game
   def self.open_games_and_players

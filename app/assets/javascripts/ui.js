@@ -170,7 +170,7 @@ UI.Body = Backbone.View.extend({
 		}
 		// ajax call to create the game in the database
 		$.ajax({
-			url: "/games",
+			url: "/create_game",
 			method: "post",
 			dataType: "json",
 			data: params,

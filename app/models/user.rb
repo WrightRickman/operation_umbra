@@ -10,17 +10,25 @@ class User < ActiveRecord::Base
 
   include GlobalScopingMethods
 
+  def new_game(name, max_difficulty)
+    return Game.new_game(name, max_difficulty, self)
+  end
+
   def join_game(game)
     game_player = GamePlayer.create(game_id: game.id, user_id: self.id)
-    self.current_game_id = game.id
+    self.assign_current_game(game)
     self.save!
+  end
+
+  def assign_current_game(game)
+    self.current_game_id = game.id
   end
 
   def current_game
     if self.current_game_id != nil
       Game.find(self.current_game_id)
     else
-      nil
+      false
     end
   end
 
