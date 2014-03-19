@@ -7,7 +7,7 @@ class PlayerMission < ActiveRecord::Base
 
   include GlobalScopingMethods
 
-  def find_by_handler(game_player)
+  def self.find_by_handler(game_player)
     where(handler_id: game_player.id)
   end
 

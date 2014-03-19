@@ -56,26 +56,27 @@ var App = Backbone.Router.extend({
 			method: "get",
 			dataType: 'json',
 			success: function(data){
+				console.log(data);
 				app.current_user = data.current_user
 				app.current_game = data.game
 				app.current_players = data.player_ids
 				app.handler_mission = data.handler_mission
-				func(destination)
+				func(destination);
 			}
-		})
+		});
 
-		if (app.current_game.last_dead != null) {
-			app.navigate("#finalMission", {trigger: true, replace: true});
-			$.ajax({
-				url: "/final_mission",
-				method: "get",
-				dataType: "json",
-				success: function(data){
-					// app.generateUI("join");
-					app.finalTwo = data
-				}
-			})
-		}
+		// if (app.current_game.last_dead != null) {
+		// 	app.navigate("#finalMission", {trigger: true, replace: true});
+		// 	$.ajax({
+		// 		url: "/final_mission",
+		// 		method: "get",
+		// 		dataType: "json",
+		// 		success: function(data){
+		// 			// app.generateUI("join");
+		// 			app.finalTwo = data
+		// 		}
+		// 	})
+		// }
 	},
 	generateUI: function(destination){
 		app.current_page = destination
@@ -185,14 +186,16 @@ UI.Body = Backbone.View.extend({
 			method: "get",
 			dataType: "json",
 			success: function(data){
+				console.log(data);
 				app.generateUI("join");
 				//data[0] is the game object
 				//data[1] is the game's players' ids
 				// set app.openGames equal to the game object returned
 				app.openGames = data[0];
+				console.log("got this far");
 				//recreate the page based on 
 				// check to see if the
-				if (app.openGames.lobby === null){
+				if (app.openGames === undefined){
 					$('#wrapper').append("<p>We do not allow double agents... You must wait until the current game is over, or drop from the current game.</p>")
 				}
 			}
@@ -281,7 +284,7 @@ UI.Body = Backbone.View.extend({
 				source = $('#home-template').html();
 				break;
 			case "create":
-				if (app.current_game.started != undefined){
+				if ($.isEmptyObject(app.current_game) == false){
 					console.log('in game already');
 					source = $('#in-game-template').html();
 				}
@@ -306,12 +309,17 @@ UI.Body = Backbone.View.extend({
 						source = $('#mission-accepted-template').html();
 					}
 				}
-				// the game has not started, but the user is in a game
+				// the game has not started, but the user is the creator
+				else if (app.current_game.creator_id == app.current_user) {
+					console.log("current creator");
+					source = $('#creator-start-template').html();
+				}
+				// the game has not started, but the user is in the game
 				else if ($.inArray(app.current_user, app.current_players) != -1){
 					console.log('current player')
 					source = $('#player-start-template').html();
 				}
-				// user is not in a game
+				// user is not in the game
 				else {
 						source = $('#nobody-start-template').html();
 						console.log('current nobody')

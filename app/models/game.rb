@@ -66,14 +66,14 @@ class Game < ActiveRecord::Base
   def game_stats
     player_ids = []
     self.game_players.each do |player|
-      player_ids << player.id
+      player_ids << player.user.id
     end
     if self.living_players.length == 2 && self.started
       last_dead = self.last_dead
     else
       last_dead = nil
     end
-    return {game: self, player_ids: player_ids, last_dead: last_dead}
+    return {game: self, player_ids: player_ids, last_dead: last_dead, creator: self.creator_id}
   end
 
   # destroy the game after unassigning all players
