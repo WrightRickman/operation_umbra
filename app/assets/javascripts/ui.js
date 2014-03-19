@@ -78,10 +78,11 @@ var App = Backbone.Router.extend({
 		// 	})
 		// }
 	},
-	generateUI: function(destination){
+	generateUI: function(destination, func){
 		app.current_page = destination
 		if (ui) ui.remove();
 		var ui = new UI;
+		if (func != null) func();
 	}
 })
 
@@ -118,7 +119,7 @@ UI.Body = Backbone.View.extend({
 	initialize: function(){
 	},
 	render: function(){
-		this.$el.html(this.template(app.current_page)(app.openGames))
+		this.$el.html(this.template(app.current_page)(app.openGames));
 		return this;
 	},
 	events: {
@@ -191,13 +192,14 @@ UI.Body = Backbone.View.extend({
 				//data[1] is the game's players' ids
 				// set app.openGames equal to the game object returned
 				app.openGames = data[0];
-				app.generateUI("join");
+				app.generateUI("join", function(){
+					if (app.openGames === undefined){
+						$('#wrapper').append("<p>We do not allow double agents... You must wait until the current game is over, or drop from the current game.</p>");
+					}
+				});
 				console.log("got this far");
 				//recreate the page based on 
 				// check to see if the
-				if (app.openGames === undefined){
-					$('#wrapper').append("<p>We do not allow double agents... You must wait until the current game is over, or drop from the current game.</p>")
-				}
 			}
 		})
 	},
