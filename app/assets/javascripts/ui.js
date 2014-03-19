@@ -22,7 +22,7 @@ var App = Backbone.Router.extend({
 	lobby: function(){
 		// create a new UI.Body so that we can call it's openGames function
 		// come back later to find better way to do this
-		console.log("boo")
+		console.log("Arrived at the Lobby Function")
 		app.gameStatus("join", app.generateUI);
 		body = new UI.Body();
 		body.openGames();
@@ -187,11 +187,11 @@ UI.Body = Backbone.View.extend({
 			dataType: "json",
 			success: function(data){
 				console.log(data);
-				app.generateUI("join");
 				//data[0] is the game object
 				//data[1] is the game's players' ids
 				// set app.openGames equal to the game object returned
 				app.openGames = data[0];
+				app.generateUI("join");
 				console.log("got this far");
 				//recreate the page based on 
 				// check to see if the

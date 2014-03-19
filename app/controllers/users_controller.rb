@@ -27,8 +27,8 @@ class UsersController < ApplicationController
 
   def leave_game
     # if user is in a game, call it's leave game method
-    if current_user.current_game != nil
-      self.leave_game
+    if current_user.current_game != false
+      current_user.leave_game
     end
 
     respond_to do |format|
