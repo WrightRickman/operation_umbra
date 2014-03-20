@@ -1,3 +1,5 @@
+http://operationumbra.herokuapp.com
+
 OPERATION UMBRA
 
 Agent:
@@ -9,3 +11,28 @@ This is a mission of the utmost secrecy. We have intercepted a missive detailing
 Good luck. 
 
 This message will self-destruct in 5... 4... 3... 2...
+
+=========================
+
+Operation Umbra is a secret agent themed alternate reality game managed by a ruby, javascript, and backbone webapp. 
+
+Operation Umbra requires an internet enabled smartphone with a camera. A pen/pencil and paper are helpful but not necessary.
+
+To Start A Game: 
+1. Sign in or sign up.
+2. Click on "Create Game".
+3. Enter a game name and a difficulty. Difficulty is based on the time needed to complete each mission. Low difficulty games are quicker. Level 1 missions take less than two minutes. Level 7 missions could last an entire day. 
+4. All players click on "Lobby" then "Join Game".
+5. Once all players are joined, the admin (the player who created the game) can start the game. 
+6. Once the game starts, all players will receive a text.
+
+Rules:
+1. This text message contains your mission and the name of your hander. Your mission is the task you need to complete. Your hander is a player responsible for overseeing and accepting your mission. 
+2. When you complete your mission, you need to bring your handler proof. What constitutes proof is up to you or your group. 
+NOTE: Filming or recording persons without their knowledge might be illegal in your area. 
+3. Once you have proof, you need to bring it to your handler. Find them. If they think the proof is sufficient, they can accept your mission inside of their webapp. 
+4. Be aware, your handler has their own missions and their own handler, so you will have to track them down.
+5. When all players have had their missions accepted or rejected, a new round begins and new missions will be handed out. 
+6. At a certain point during the game, your agency will be compromised. At this point, you may receive a mission to assassinate another player. You have to find that player, assassinate them, and deliver the proof to your handler before your target completes their mission. If the target completes their mission first, the assassination contract is null. 
+NOTE: How you choose to assassinate your teammates is up to your group. We recommend tagging or foam weaponry. Keep it safe. We are not responsible for any injuries incurred during this game.
+7. Last player standing wins.
