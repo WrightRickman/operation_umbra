@@ -5,23 +5,31 @@ FactoryGirl.define do
     user_name "testUser"
     email "tester@test.com"
     password "password123"
+    # phone_number "9736193328"
+
   end
 
   factory :yaniv, class: User do
     user_name "Yaniv"
     email "yaniv@test.com"
     password "password123"
+    # phone_number "9736193328"
+
   end
 
   factory :wright, class: User do
     user_name "Wright"
     email "wright@test.com"
     password "password123"
+    # phone_number "9736193328"
+
   end
 
   factory :isaac, class: User do
     user_name "Isaac"
     email "isaac@test.com"
     password "password123"
+    # phone_number "9736193328"
+
   end
 end

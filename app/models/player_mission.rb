@@ -22,8 +22,8 @@ class PlayerMission < ActiveRecord::Base
 
   # method for sending the player their mission... still coming
   def brief(description, phone_number, handler)
-    account_sid = 'AC9777483a86e4fccefab938be2801e8bf'
-    auth_token = '626c4b863a9c2a1c4798c73bd366b260'
+    account_sid = 'ACe3077fe23fe1139751ed954c6a9ca95a'
+    auth_token = '03fda3cb1fb25da94e121f1747972a02'
     @client = Twilio::REST::Client.new account_sid, auth_token
 
     message = @client.account.sms.messages.create(:body => "<~Attn Agent~> \n Your Mission: #{description} \n #{handler} is overseeing your mission. Complete your mission and bring them proof.",
