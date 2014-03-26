@@ -56,7 +56,7 @@ class GamesController < ApplicationController
 
 	def start
 		if current_user.current_game != nil
-			current_user.current_game.start
+			current_user.current_game.start_game
 		end
 
 		respond_to do |format|
