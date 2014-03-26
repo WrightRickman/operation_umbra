@@ -14,7 +14,6 @@ FactoryGirl.define do
     email "yaniv@test.com"
     password "password123"
     # phone_number "9736193328"
-
   end
 
   factory :wright, class: User do
@@ -22,7 +21,6 @@ FactoryGirl.define do
     email "wright@test.com"
     password "password123"
     # phone_number "9736193328"
-
   end
 
   factory :isaac, class: User do
@@ -30,6 +28,5 @@ FactoryGirl.define do
     email "isaac@test.com"
     password "password123"
     # phone_number "9736193328"
-
   end
 end

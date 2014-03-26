@@ -35,6 +35,10 @@ class Game < ActiveRecord::Base
     GamePlayer.last_dead(self)
   end
 
+  def mission_count
+    self.player_missions.where(success: true).length
+  end
+
 ############################################
 
 ###############  CREATE/LOBBY METHODS #############
