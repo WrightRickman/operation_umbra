@@ -40,7 +40,7 @@ nav {
 	padding: 8px 0;
 }
 
-nav a { margin: 0 11%; }
+nav a { margin: 0 7%; }
 
 h1 {
 	text-align: center;
@@ -100,6 +100,7 @@ table {
 #state_frame { 
 	width: 90%;
 	margin: 0 auto; 
+	background-color: #990303;
 }
 
 #operation { font-size: 4em; }

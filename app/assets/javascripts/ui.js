@@ -10,7 +10,8 @@ var App = Backbone.Router.extend({
 		"menu": "menu",
 		"myGames": "myGames",
 		"pastGames": "pastGames",
-		"finalMission": "finalMission"
+		"finalMission": "finalMission",
+		"rules": "rules",
 	},
 	home: function(){
 		app.gameStatus();
@@ -47,6 +48,9 @@ var App = Backbone.Router.extend({
 	},
 	finalMission: function(){
 		app.gameStatus("finalMission", app.generateUI);
+	},
+	rules: function(){
+		app.gameStatus("rules", app.generateUI);
 	},
 	gameStatus: function(destination, func){
 		// makes an ajax call, returning the current user, curren't user's game, and the game's players' ids
@@ -354,13 +358,17 @@ UI.Body = Backbone.View.extend({
 			case "finalMission":
 				if (app.current_user == app.current_game.last_dead) {
 					console.log('final mission')
-					source = $('#final-current-template').html();
+					source = $('#final-mission-template').html();
 				}
 				// FOR THE FUTURE
 				// else {
 				// 	console.log('please wait')
 				// 	source = $('#mission-accepted-template').html();
 				// }
+			case "rules":
+				console.log('rules')
+				source = $('#rules-template').html();
+				break;
 			case "adminStart":
 				console.log('admin')
 				source = $('#admin-start-template').html();

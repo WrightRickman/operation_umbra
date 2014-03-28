@@ -145,3 +145,5 @@ Mission.create(:description => "Find a picture of one of the creators of this ga
 
 #Level 10: Assassinate!
 Mission.create(:description => "", :level => 10, :assassination => true)
+
+game.start_game

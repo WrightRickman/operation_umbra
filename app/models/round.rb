@@ -39,6 +39,7 @@ class Round < ActiveRecord::Base
       end
       # give each player his mission
       agents.each do |agent|
+        binding.pry
         handler = handlers.shift
         mission = PlayerMission.create(:mission_id => missions.sample.id, :game_id => self.game_id, :game_player_id => agent.id, :round_id => self.id, :handler_id => handler.id)
       end

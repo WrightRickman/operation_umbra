@@ -28,6 +28,9 @@ class GamesController < ApplicationController
 				info = game.game_stats
 				info[:current_user] = current_user.id
 				info[:handler_mission] = PlayerMission.find_by_handler(users_game_player).last
+				if current_user.current_game.living_players.length == 2
+					
+				end
 			#if the user is not involved in a game, create an empty object to send back to the app
 			else
 				info = {game: {}, player_ids: [], current_user: current_user.id, handler_mission: [], last_dead: []}
@@ -63,13 +66,6 @@ class GamesController < ApplicationController
 			format.html
 			format.json {render json: {}}
 		end
-	end
-
-	def final_mission
-		respond_to do |format|
-			format.html
-			format.json {render json: {}}
-		end 
 	end
 
 	private

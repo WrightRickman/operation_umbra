@@ -161,17 +161,17 @@
       </div>
     </script>
 
-    <script id="final-current-template" type="text/x-handlebars-template">
+    <script id="final-mission-template" type="text/x-handlebars-template">
       <div id="wrapper">
         <h3>Handler:</h3>
-        <h4>Accept or reject your Agents mission.</h4>
+        <h4>Accept the mission of the first user to complete it blah</h4>
         {{each mission}}
           <p><strong>{{mission.user_name}}</strong></p>
         <div id="button_left">
-          <button id="handler_accept_button">Accept Mission</button>
+          <button id="player1_button">Accept {{player 1}}</button>
         </div>
         <div id="button_right">
-          <button id="handler_reject_button">Reject Mission</button>
+          <button id="player2_button">Accept {{player 2}}</button>
         </div>
         {{/each}}
       </div>
@@ -208,10 +208,45 @@
       </div>
     </script>
 
+    <script id="rules-template" type="text/x-handlebars-template">
+      <div id="wrapper">
+        <p>Operation Umbra requires an internet enabled smartphone with a camera.</p>
+        <h3>To Start a Game</h3>
+        <ol>
+          <li>Sign In or Sign Up</li>
+          <li>Create a game. The difficulty is the length of the mission. Level 1 is under two minutes. Level 7 could take an entire day. Low level games are quicker.</li>
+          <li>All players select the game from the lobby.</li>
+          <li>When everyone has joined, the player who created the game can start the game.</li>
+          <li>All players will recieve a text message with their mission.</li>
+        </ol>
+        <h3>Rules</h3>
+        <ol>
+          <li>This text message contains your mission and the name of your hander. Your mission is the task you need to complete. Your hander is a player responsible for overseeing and accepting your mission.</li>
+          <li>When you complete your mission, you need to bring your handler proof. What constitutes proof is up to you or your group.</li>
+          <li>Once you have proof, you need to bring it to your handler. Find them. If they think the proof is sufficient, they can accept your mission inside of their webapp.</li>
+          <li>Be aware, your handler has their own missions and their own handler, so you will have to track them down.
+
+          </li>
+          <li>When all players have had their missions accepted or rejected, a new round begins and new missions will be handed out.</li>
+          <li>At a certain point during the game, your agency will be compromised. At this point, you may receive a mission to assassinate another player. You have to find that player, assassinate them, and deliver the proof to your handler before your target completes their mission. If the target completes their mission first, the assassination contract is null.</li>
+          <li>Last player standing wins.</li>
+        </ol>
+
+        <h3>Disclaimer</h3>
+        <ul>
+          <li>When gathering proof, be aware that filming or recording persons without their knowledge might be illegal in your area.</li>
+          <li>How you choose to assassinate your teammates is up to your group. We recommend tagging them or using foam dart guns. Keep it safe. We are not responsible for any injuries caused by unsafe practices during this game.</li>
+        </ul>
+        
+        <a id="rules" href="https://github.com/BastionGamma/operation_umbra/">View Code on GitHub</a>
+      </div>
+    </script>
+
   </head>
 
   <body>
     <nav>
+      <a href="#rules">Rules</a>
       <% if user_signed_in? %>
         <a href="#create">Create</a>
         <a href="#lobby">Lobby</a>
@@ -230,8 +265,6 @@
       <%= yield %>
 
     </div>
-
-    <a id="rules" href="https://github.com/BastionGamma/operation_umbra/blob/master/README.rdoc">CLICK FOR GAME RULES</a>
 
     <%= javascript_include_tag "application" %>
   </body>

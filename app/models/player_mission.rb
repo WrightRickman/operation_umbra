@@ -8,7 +8,13 @@ class PlayerMission < ActiveRecord::Base
   include GlobalScopingMethods
 
   def self.find_by_handler(game_player)
-    where(handler_id: game_player.id)
+    missions = where(handler_id: game_player.id).where.not(success: nil)
+
+    if missions.length == 1
+      return missions.last
+    else
+      return missions
+    end
   end
 
   # returns the handler of the mission
